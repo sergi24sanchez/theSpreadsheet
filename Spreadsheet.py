@@ -9,3 +9,7 @@ class Spreadsheet():
     
     def set_cells(self, cells):
         self.cells = cells
+
+    def save_spreadsheet(self,file_name):
+        # STILL TO BE IMPLEMENTED
+        pass

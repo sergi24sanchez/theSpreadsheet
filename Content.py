@@ -10,6 +10,10 @@ class Content(ABC):
     
     def set_content(self,input_string):
         self.input_string = input_string
+    
+    @abstractmethod
+    def compute_value(self):
+        pass
 
 
 class Numerical(Content):
@@ -24,6 +28,9 @@ class Numerical(Content):
     def set_content(self, input_string):
         return super().set_content(input_string)
     
+    def compute_value(self):
+        self.number_value = int(self.input_string)  # Is it OK?
+    
 
 class Text(Content):
 
@@ -36,6 +43,9 @@ class Text(Content):
 
     def set_content(self, input_string):
         return super().set_content(input_string)
+    
+    def compute_value(self):
+        self.string_value = self.input_string
 
 
 class Formula(Content):
@@ -49,3 +59,7 @@ class Formula(Content):
     
     def set_content(self, input_string):
         return super().set_content(input_string)
+    
+    def compute_value(self):
+        # STILL NOT IMPLEMENTED
+        pass
