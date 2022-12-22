@@ -1,12 +1,14 @@
+from abc import ABC, abstractclassmethod
 from Component import Operand
 from Argument import Argument
 
-class Function(Argument,Operand): #ABSTRACT?
+class Function(Argument,Operand,ABC):
 
+    @abstractclassmethod
     def __init__(self) -> None:
         Argument.__init__(self)
         Operand.__init__(self)
-
+    @abstractclassmethod
     def get_result(Argument):
         # STILL TO BE IMPLEMENTED
         pass

@@ -1,8 +1,14 @@
-class Argument():
+from abc import ABC, abstractclassmethod
 
+class Argument(ABC):
+
+    @abstractclassmethod
     def __init__(self) -> None:
         pass
-
+    
+    @abstractclassmethod
+    def get_argument_value(self):
+        pass
 
 class Range(Argument):
 
@@ -18,6 +24,10 @@ class Range(Argument):
         return self.final_cell
 
     def get_all_range_of_cells(self) -> list:
+        # THIS METHOD STILL HAS TO BE IMPLEMENTED
+        pass
+
+    def get_argument_value(self):
         # THIS METHOD STILL HAS TO BE IMPLEMENTED
         pass
 
