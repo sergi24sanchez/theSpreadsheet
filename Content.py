@@ -1,3 +1,10 @@
+'''
+Class Content
+Class Numerical
+Class Text
+Class Formula
+'''
+
 from abc import ABC, abstractmethod
 
 class Content(ABC):

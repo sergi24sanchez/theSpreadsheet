@@ -1,3 +1,8 @@
+'''
+Abstract class Argument
+Class Range
+Class Number
+'''
 from abc import ABC, abstractclassmethod
 
 class Argument(ABC):

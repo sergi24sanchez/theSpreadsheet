@@ -1,3 +1,11 @@
+'''
+class Function
+class Suma
+class Min
+class Max
+class Promedio
+'''
+
 from abc import ABC, abstractclassmethod
 from Component import Operand
 from Argument import Argument

@@ -1,3 +1,9 @@
+'''
+class Component
+class Operand
+class Operator
+'''
+
 class Component():
 
     def __init__(self) -> None:

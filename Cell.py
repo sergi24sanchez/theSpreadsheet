@@ -1,3 +1,4 @@
+'''class Cell'''
 from Argument import Argument
 from Component import Operand
 from Coordinate import Coordinate
@@ -9,6 +10,8 @@ class Cell(Argument,Operand):
 
         self.coordinate = coordinate
         self.content = None
+        self.dependsonme = []
+        self.idependon = []
     
     def get_coordinate(self):
         return self.coordinate
@@ -21,3 +24,10 @@ class Cell(Argument,Operand):
 
     def set_coordinate(self,coordinate:Coordinate):
         self.coordinate = coordinate
+
+    def add_dependsonme(self, coordinate:Coordinate):
+        self.dependsonme.append(coordinate)
+
+    def set_idependon(self, cells):
+        #cells is a list of cells or a Cell that will be given
+        self.idependon = cells

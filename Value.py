@@ -1,3 +1,8 @@
+'''
+Class Value
+Class FloatValue
+Class StringValue
+'''
 from abc import ABC, abstractclassmethod
 
 class Value(ABC):

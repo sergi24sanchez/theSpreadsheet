@@ -1,5 +1,6 @@
-from typing import Self
+'''Class Coordinate'''
 
+from typing import Self
 
 class Coordinate():
 
