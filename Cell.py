@@ -11,7 +11,7 @@ class Cell(Argument,Operand):
         self.coordinate = coordinate
         self.content = None
         self.dependsonme = []
-        self.idependon = []
+        self.idependon = None
     
     def get_coordinate(self):
         return self.coordinate
@@ -19,15 +19,21 @@ class Cell(Argument,Operand):
     def get_content(self):
         return self.content
 
+    def get_idependon(self):
+        return self.idependon
+
+    def get_dependsonme(self):
+        return self.dependsonme
+
     def set_content(self, content:Content):
         self.content = content
 
     def set_coordinate(self,coordinate:Coordinate):
         self.coordinate = coordinate
 
-    def add_dependsonme(self, coordinate:Coordinate):
-        self.dependsonme.append(coordinate)
-
     def set_idependon(self, cells):
         #cells is a list of cells or a Cell that will be given
         self.idependon = cells
+
+    def add_dependsonme(self, coordinate:Coordinate):
+        self.dependsonme.append(coordinate)
