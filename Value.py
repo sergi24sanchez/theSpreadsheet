@@ -14,6 +14,14 @@ class Value(ABC):
     @abstractclassmethod
     def get_value():
         pass
+
+    @abstractclassmethod
+    def get_as_string():
+        pass
+
+    @abstractclassmethod
+    def get_as_float():
+        pass
     
     @abstractclassmethod
     def set_value():
@@ -27,6 +35,9 @@ class FloatValue(Value):
     
     def get_value(self):
         return self.value
+
+    def get_as_float():
+        pass
     
     def set_value(self, value):
         self.value = value
@@ -39,6 +50,9 @@ class StringValue(Value):
     
     def get_value(self):
         return self.value
-    
+
+    def get_as_string():
+        pass
+
     def set_value(self, value):
         self.value = value

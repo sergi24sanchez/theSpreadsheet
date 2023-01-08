@@ -25,6 +25,9 @@ class Cell(Argument,Operand):
     def get_dependsonme(self):
         return self.dependsonme
 
+    def get_for_print(self):
+        pass
+
     def set_content(self, content:Content):
         self.content = content
 
