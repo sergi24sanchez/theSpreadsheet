@@ -7,5 +7,9 @@ class Argument(ABC):
         pass
     
     @abstractclassmethod
+    def set_argument_value(self):
+        pass
+
+    @abstractclassmethod
     def get_argument_value(self):
         pass

@@ -35,8 +35,14 @@ class Cell(Argument,Operand):
         self.coordinate = coordinate
 
     def set_idependon(self, cells):
-        #cells is a list of cells or a Cell that will be given
+        #cells: list of cells or a Cell that will be given
         self.idependon = cells
 
     def add_dependsonme(self, coordinate:Coordinate):
         self.dependsonme.append(coordinate)
+
+    def set_argument_value(self):
+        pass
+
+    def get_argument_value(self):
+        pass

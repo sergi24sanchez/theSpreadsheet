@@ -2,7 +2,7 @@ from Argument import Argument
 import utils
 
 class Range(Argument):
-
+    '''Range(B2:D5)'''
     def __init__(self, range:str) -> None:
         self.initial_cell = range.split(':')[0]
         self.final_cell = range.split(':')[1]
@@ -21,6 +21,7 @@ class Range(Argument):
         return self.final_cell
 
     def get_all_cells(self) -> list:
+        
         all_cells = []
         initial_row = [*self.initial_cell][1]
         initial_col = utils.column_letter_to_number([*self.initial_cell][0])
