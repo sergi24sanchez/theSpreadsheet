@@ -40,11 +40,24 @@ class Tokenizer:
     def __init__(self):
         self.token_infos = deque()
         self.tokens = deque()
+        self.adds_tokenizer()
 
     def add(self, regex, type_):
         self.token_infos.append(
             TokenInfo(re_compile("^(" + regex + ")"), type_)
         )
+
+    def adds_tokenizer(self):
+        self.add("SUMA|MIN|MAX|PROMEDIO", TokenEnum.FUNCTION) # function
+        self.add("[a-zA-Z]+\\d+:[a-zA-Z]+\\d+", TokenEnum.RANGE) #Cell Range
+        self.add("\\(", TokenEnum.LEFT_BRACKET) # open bracket
+        self.add("\\)", TokenEnum.RIGHT_BRACKET) # close bracket
+        self.add("[+-]", TokenEnum.OPERATOR) # plus or minus
+        self.add("[*/]", TokenEnum.OPERATOR) # mult or divide
+        self.add("\\^", TokenEnum.OPERATOR) # raised
+        self.add("[0-9]+", TokenEnum.NUMBER) # integer number
+        self.add("[a-zA-Z]+\\d+", TokenEnum.CELL) #cell
+        self.add(";", TokenEnum.COMMA) #Argument separator
 
     def tokenize(self, s: str):
         s = s.strip()
@@ -86,15 +99,3 @@ class Tokenizer:
                 elif c == '^':
                     stack.append(val2 ** val1)
         return stack.pop()
-    
-    def adds_tokenizer(self, tokenizer):
-        tokenizer.add("SUMA|MIN|MAX|PROMEDIO", TokenEnum.FUNCTION) # function
-        tokenizer.add("[a-zA-Z]+\\d+:[a-zA-Z]+\\d+", TokenEnum.RANGE) #Cell Range
-        tokenizer.add("\\(", TokenEnum.LEFT_BRACKET) # open bracket
-        tokenizer.add("\\)", TokenEnum.RIGHT_BRACKET) # close bracket
-        tokenizer.add("[+-]", TokenEnum.OPERATOR) # plus or minus
-        tokenizer.add("[*/]", TokenEnum.OPERATOR) # mult or divide
-        tokenizer.add("\\^", TokenEnum.OPERATOR) # raised
-        tokenizer.add("[0-9]+", TokenEnum.NUMBER) # integer number
-        tokenizer.add("[a-zA-Z]+\\d+", TokenEnum.CELL) #cell
-        tokenizer.add(";", TokenEnum.COMMA) #Argument separator
