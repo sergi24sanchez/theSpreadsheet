@@ -7,15 +7,22 @@ class SpreadsheetController():
         pass
 
     def create_spreadsheet(self):
-        pass
+        print('creating spreadsheet')
+        
 
     def edit_cell(self):
         pass
 
     def load_spreadsheet_from_file(self):
-        pass
+        print('loading from file')
+        
 
     def save_spreadsheet_to_file(self):
-        pass
+        print('saving to file')
+        
+
+    def read_command_from_file(self):
+        print('reading command from file')
+        
 
     
