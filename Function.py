@@ -11,12 +11,6 @@ from Component import Operand
 from Argument import Argument
 
 class Function(Argument,Operand,ABC):
-    function_class_map = {
-        "SUMA": 'Sum',
-        "PROMEDIO": 'Promedio',
-        "MAX": 'Max',
-        "MIN": 'Min'
-    }
 
     def __init__(self, arguments_list) -> None:
         '''
