@@ -10,6 +10,15 @@ from abc import ABC, abstractclassmethod
 from Component import Operand
 from Argument import Argument
 
+from enum import Enum
+
+class FunctionEnum(Enum):
+    SUMA = "SUMA"
+    PROMEDIO = "PROMEDIO"
+    MAX = "MAX"
+    MIN = "MIN"
+
+
 class Function(Argument,Operand,ABC):
 
     def __init__(self, arguments_list) -> None:
