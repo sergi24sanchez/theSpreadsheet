@@ -27,3 +27,25 @@ class PostfixEvaluator(ExpressionGenerator):
 
     def push_element(self):
         pass
+
+    @staticmethod
+    def evaluate_postfix(exp):
+        stack = []
+        for c in exp:
+            if c.isnumeric():
+                stack.append(int(c))
+            else:
+                val1 = stack.pop()
+                val2 = stack.pop()
+
+                if c == '+':
+                    stack.append(val2 + val1)
+                elif c == '-':
+                    stack.append(val2 - val1)
+                elif c == '/':
+                    stack.append(val2 / val1)
+                elif c == '*':
+                    stack.append(val2 * val1)
+                elif c == '^':
+                    stack.append(val2 ** val1)
+        return stack.pop()

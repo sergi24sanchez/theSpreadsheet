@@ -29,9 +29,8 @@ class TokenEnum(Enum):
     OPERATOR = 4
     LEFT_BRACKET = 5
     RIGHT_BRACKET = 6
-    COMMA = 7
+    SEMI_COLON = 7
     FUNCTION = 8
-    DELIMITER = 9
 
 
 class ParserException(Exception):
@@ -42,7 +41,6 @@ class ParserException(Exception):
 class Tokenizer:
     def __init__(self):
         self.token_infos = deque()
-        self.tokens = deque()
         self.adds_tokenizer()
 
     def add(self, regex, type_):
@@ -60,11 +58,12 @@ class Tokenizer:
         self.add("\\^", TokenEnum.OPERATOR) # raised
         self.add("[0-9]+", TokenEnum.NUMBER) # integer number
         self.add("[a-zA-Z]+\\d+", TokenEnum.CELL) #cell
-        self.add(";", TokenEnum.COMMA) #Argument separator
+        self.add(";", TokenEnum.SEMI_COLON) #Argument separator
 
+    # @staticmethod
     def tokenize(self, s: str):
+        tokens = deque()
         s = s.strip()
-        self.tokens.clear()
         while s != "":
             match = False
             for info in self.token_infos:
@@ -73,32 +72,8 @@ class Tokenizer:
                     match = True
                     tok = m.group().strip()
                     s = re.sub(info.regex, "", s, count=1).strip()
-                    self.tokens.append(Token(info.type, tok))
+                    tokens.append(Token(info.type, tok))
                     break
             if not match:
                 raise ParserException(f"Unexpected character in input: {s}")
-
-    def get_tokens(self):
-        return self.tokens
-
-    @staticmethod
-    def evaluate_postfix(exp):
-        stack = []
-        for c in exp:
-            if c.isnumeric():
-                stack.append(int(c))
-            else:
-                val1 = stack.pop()
-                val2 = stack.pop()
-
-                if c == '+':
-                    stack.append(val2 + val1)
-                elif c == '-':
-                    stack.append(val2 - val1)
-                elif c == '/':
-                    stack.append(val2 / val1)
-                elif c == '*':
-                    stack.append(val2 * val1)
-                elif c == '^':
-                    stack.append(val2 ** val1)
-        return stack.pop()
+        return tokens

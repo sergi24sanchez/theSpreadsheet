@@ -14,6 +14,7 @@ class ExpressionGenerator(ABC):
 import re
 from typing import List
 from Tokenizer import Token, Tokenizer, ParserException
+from Parser_ import Parser
 from Function import FunctionEnum
 
 class PostFixGenerator(ExpressionGenerator):
@@ -44,6 +45,7 @@ class PostFixGenerator(ExpressionGenerator):
         else:
             return -1
 
+    # @staticmethod
     def generate_expression(self, tokens: List[Token]) -> List[Token]:
         '''This method should return the postfix expression as a sequence of FormulaComponents'''
         stack = []
@@ -54,7 +56,7 @@ class PostFixGenerator(ExpressionGenerator):
         range_pattern = re.compile("[a-zA-Z]+\\d+:[a-zA-Z]+\\d+")
 
         for token in tokens:
-            s = token.sequence
+            s = token.get_sequence()
             if number_pattern.match(token.get_sequence()) or cell_pattern.match(token.get_sequence()) or range_pattern.match(token.get_sequence()):
                 output_list.append(token)
             elif s == ";":
@@ -90,14 +92,16 @@ class PostFixGenerator(ExpressionGenerator):
 
 def main():
     tokenizer = Tokenizer()
+    parser = Parser(tokenizer.token_infos)
     postfix_generator = PostFixGenerator()
     string = input("Enter string: ")
     try:
-        tokenizer.tokenize(string)
+        token_sequence = tokenizer.tokenize(string)
 
         print("INFIX:")
-        print([token.get_sequence() for token in tokenizer.get_tokens()])
-        output = postfix_generator.generate_expression(tokenizer.get_tokens())
+        print([token.get_sequence() for token in token_sequence])
+        if parser.parse(token_sequence):
+            output = postfix_generator.generate_expression(token_sequence)
         print("POSTFIX")
         print([token.get_sequence() for token in output])
         
