@@ -30,20 +30,24 @@ class PostFixGenerator(ExpressionGenerator):
         else:
             return False
 
-    def get_precedence(ch):
+    def get_precedence(self,ch):
         if ch in ["+", "-"]:
             return 2
         elif ch in ["*", "/"]:
             return 3
-        elif ch in ["(", ")", ";", "SUMA", "MAX", "MIN", "PROMEDIO"]:
+        elif ch in [")"]:
+            return 4
+        elif ch in [";", "SUMA", "MAX", "MIN", "PROMEDIO"]:
             return 1
+        elif ch in ["("]:
+            return 0
         else:
             return -1
 
-    def generate_expression(self, tokens:List[Token]) -> List[Token]:
-
+    def generate_expression(self, tokens: List[Token]) -> List[Token]:
+        '''This method should return the postfix expression as a sequence of FormulaComponents'''
         stack = []
-        outputList = []
+        output_list = []
         arguments = 0
         number_pattern = re.compile("-?\\d+(\\.\\d+)?")
         cell_pattern = re.compile("^([a-zA-Z]+)(\\d+)$")
@@ -51,8 +55,8 @@ class PostFixGenerator(ExpressionGenerator):
 
         for token in tokens:
             s = token.sequence
-            if number_pattern.match(token.sequence) or cell_pattern.match(token.sequence) or range_pattern.match(token.sequence):
-                outputList.append(token)
+            if number_pattern.match(token.get_sequence()) or cell_pattern.match(token.get_sequence()) or range_pattern.match(token.get_sequence()):
+                output_list.append(token)
             elif s == ";":
                 arguments += 1
             elif s in ["SUMA", "MAX", "MIN", "PROMEDIO"]:
@@ -61,54 +65,27 @@ class PostFixGenerator(ExpressionGenerator):
             elif s == "(":
                 stack.append(token)
             elif s == ")":
-                while stack and stack[-1].sequence[0] != "(":
-                    outputList.append(stack.pop())
-
-                stack.pop()
+                while stack and stack[-1].get_sequence() != "(":
+                    output_list.append(stack.pop())
+                if stack and stack[-1].get_sequence() == "(": # pop the matching parenthesis
+                    stack.pop()
+                else:
+                    raise ValueError("Mismatched Parenthesis")
                 for func in FunctionEnum:
-                    if stack and stack[-1].sequence == func.name:
+                    if stack and stack[-1].get_sequence() == func.name:
                         self.function_arguments.append(arguments)
                         arguments = 0
             else:   # If an operator is encountered then taken the further action based on the precedence of the operator
                 if stack:
-                    while self.get_precedence(s) <= self.get_precedence(stack[-1].sequence):
-                        outputList.append(stack.pop())
+                    while (stack and 
+                        self.get_precedence(stack[-1].get_sequence()) >= self.get_precedence(s)):
+                        output_list.append(stack.pop())
                 stack.append(token)
-        # if the token is a letter extract letter an following nummber and extract value from that cell
-        # threat it as a operand
         while stack:    # pop all the remaining operators from the stack and append them to output
-            outputList.append(stack.pop())
-        return outputList
-
-    # def generate_expression(self, tokens:List[Token])-> List[Token]:
-    #     """
-    #     The Shunting Yard Algorithm.
-    #     infix  : str : an infix mathematical expression.
-    #     """
-    #     specials = {'': 50, '.': 40, '|': 30}
-
-    #     postfix = []
-    #     stack = []
-
-    #     for token in tokens:
-    #         s = token.sequence
-    #         if s == '(':
-    #             stack.append(s)
-    #         elif s == ')':
-    #             while stack[-1] != '(':
-    #                 postfix.append(stack.pop())
-    #             stack.pop()
-    #         elif s in specials:
-    #             while stack and specials.get(s, 0) <= specials.get(stack[-1], 0):
-    #                 postfix.append(stack.pop())
-    #             stack.append(s)
-    #         else:
-    #             postfix.append(s)
-
-    #     while stack:
-    #         postfix.append(stack.pop())
-
-    #     return postfix
+            if stack[-1].sequence == '(':
+                raise ValueError("Mismatched Parenthesis")
+            output_list.append(stack.pop())
+        return output_list
 
 
 def main():
@@ -118,13 +95,11 @@ def main():
     try:
         tokenizer.tokenize(string)
 
-        # for token in tokenizer.get_tokens():
-        #     print(token.sequence)
-        
+        print("INFIX:")
+        print([token.get_sequence() for token in tokenizer.get_tokens()])
         output = postfix_generator.generate_expression(tokenizer.get_tokens())
-
-        for token in output:
-            print(token.sequence)
+        print("POSTFIX")
+        print([token.get_sequence() for token in output])
         
     except ParserException as ex:
         print(ex)
