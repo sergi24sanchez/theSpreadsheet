@@ -15,6 +15,9 @@ class Token:
 
     def is_of_type(self, type_):
         return self.type == type_
+    
+    def get_sequence(self):
+        return self.sequence
 
 
 from enum import Enum
