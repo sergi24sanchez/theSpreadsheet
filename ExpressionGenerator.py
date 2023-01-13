@@ -50,20 +50,31 @@ class PostFixGenerator(ExpressionGenerator):
         '''This method should return the postfix expression as a sequence of FormulaComponents'''
         stack = []
         output_list = []
-        arguments = 0
+        n_functions = 0
         number_pattern = re.compile("-?\\d+(\\.\\d+)?")
         cell_pattern = re.compile("^([a-zA-Z]+)(\\d+)$")
         range_pattern = re.compile("[a-zA-Z]+\\d+:[a-zA-Z]+\\d+")
 
         for token in tokens:
             s = token.get_sequence()
+            # LOOP FOR TREATING THE ARGUMENTS OF A FUNCTION (ADD DIRECTLY TO THE OUTPUT)
+            if n_functions > 0:
+                output_list.append(token)
+                if s in ["SUMA", "MAX", "MIN", "PROMEDIO"]:
+                    n_functions += 1
+                elif s == ")":
+                    n_functions -= 1
+                # Go fo the next token
+                continue
+            
             if number_pattern.match(token.get_sequence()) or cell_pattern.match(token.get_sequence()) or range_pattern.match(token.get_sequence()):
                 output_list.append(token)
             elif s == ";":
-                arguments += 1
+                pass
             elif s in ["SUMA", "MAX", "MIN", "PROMEDIO"]:
-                stack.append(token)
-                arguments += 1
+                output_list.append(token)
+                n_functions += 1
+
             elif s == "(":
                 stack.append(token)
             elif s == ")":
@@ -73,10 +84,7 @@ class PostFixGenerator(ExpressionGenerator):
                     stack.pop()
                 else:
                     raise ValueError("Mismatched Parenthesis")
-                for func in FunctionEnum:
-                    if stack and stack[-1].get_sequence() == func.name:
-                        self.function_arguments.append(arguments)
-                        arguments = 0
+
             else:   # If an operator is encountered then taken the further action based on the precedence of the operator
                 if stack:
                     while (stack and 
