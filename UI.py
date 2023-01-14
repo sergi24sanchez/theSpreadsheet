@@ -42,3 +42,10 @@ class UI():
                 print(e)
             except InputError as e:
                 print(e)
+
+ui = UI()
+controller = ui.get_SpreadsheetController()
+controller.create_spreadsheet(3,4)
+#print(controller.spreadSheet)
+spread = controller.load_spreadsheet_from_file('awa.txt')
+print(spread)

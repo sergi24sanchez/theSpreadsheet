@@ -1,15 +1,14 @@
 '''Class Coordinate'''
-
-from typing import Self
+import re
 
 class Coordinate():
 
-    def __init__(self):
-        self.row = None
-        self.column = None
-    
+    def __init__(self, coordinates):
+        self.row = int(re.findall(r'\d+', coordinates)[0])
+        self.column = re.findall(r'[a-zA-Z]+', coordinates)[0]
+        
     def get_coordinate(self):
-        return self
+        return f'{self.column}{self.row}'
     
     def get_row(self):
         return self.row
