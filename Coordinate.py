@@ -1,7 +1,5 @@
 '''Class Coordinate'''
 
-from typing import Self
-
 class Coordinate():
 
     def __init__(self):

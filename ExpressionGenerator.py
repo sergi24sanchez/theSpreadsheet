@@ -59,7 +59,8 @@ class PostFixGenerator(ExpressionGenerator):
             s = token.get_sequence()
             # LOOP FOR TREATING THE ARGUMENTS OF A FUNCTION (ADD DIRECTLY TO THE OUTPUT)
             if n_functions > 0:
-                output_list.append(token)
+                if token.get_sequence() !=';':
+                    output_list.append(token)
                 if s in ["SUMA", "MAX", "MIN", "PROMEDIO"]:
                     n_functions += 1
                 elif s == ")":
