@@ -33,6 +33,7 @@ class Parser:
                 valid_tokens = [
                     TokenEnum.CELL, TokenEnum.NUMBER, TokenEnum.FUNCTION,
                     TokenEnum.SEMI_COLON, TokenEnum.OPERATOR, TokenEnum.RANGE,
+                    TokenEnum.RIGHT_BRACKET,
                 ]
                 self.valid_tokens.update({TokenEnum.RIGHT_BRACKET:valid_tokens})
             elif token_enum.type == TokenEnum.SEMI_COLON:
