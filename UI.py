@@ -27,13 +27,21 @@ class UI():
                 elif command == "rf":
                     self.controller.read_command_from_file()
                 elif command == "c":
-                    self.controller.create_spreadsheet()
+                    print('Write the number of rows you want the new spreadsheet to have:')
+                    nrows = input()
+                    print('Write the number of columns you want the new spreadsheet to have:')
+                    ncols = input()
+                    self.controller.create_spreadsheet(nrows, ncols)
                 elif command == "e":
                     self.controller.edit_cell()
                 elif command == "l":
-                    self.controller.load_spreadsheet_from_file('awa')
+                    print('Introduce the path of the file you want to load. Include the name and also the extension .txt')
+                    path_load = input()
+                    self.controller.load_spreadsheet_from_file(path_load)
                 elif command == "s":
-                    self.controller.save_spreadsheet_to_file('awa')
+                    print('Introduce the output path of the file you want to save. Include the name and also the extension .txt')
+                    path_save = input()
+                    self.controller.save_spreadsheet_to_file(path_save)
                 else:
                     raise InputError("Invalid input")
             except BadCoordinateException as e:
@@ -42,10 +50,16 @@ class UI():
                 print(e)
             except InputError as e:
                 print(e)
+            except ValueError as e:
+                print(e)
+
+# ui = UI()
+# controller = ui.get_SpreadsheetController()
+# controller.create_spreadsheet(3,4)
+# #print(controller.spreadSheet)
+# controller.load_spreadsheet_from_file('awa.txt')
+# controller.save_spreadsheet_to_file('awa2.txt')
+# #print(spread)
 
 ui = UI()
-controller = ui.get_SpreadsheetController()
-controller.create_spreadsheet(3,4)
-#print(controller.spreadSheet)
-spread = controller.load_spreadsheet_from_file('awa.txt')
-print(spread)
+ui.start_session()

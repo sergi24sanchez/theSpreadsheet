@@ -2,12 +2,13 @@ from Coordinate import Coordinate
 from Cell import Cell
 from utils import column_number_to_letter
 import pandas as pd
-
+from Exceptions import InputError
 class Spreadsheet():
 
-    def __init__(self, num_rows:int, num_cols:int):
-        self.numcols = num_cols
-        self.numrows = num_rows
+    def __init__(self, num_rows, num_cols):
+        self.numcols = int(num_cols)
+        self.numrows = int(num_rows)
+
         cols = []
         for col in range(self.numcols):
             cols.append(column_number_to_letter(col+1))
@@ -35,7 +36,7 @@ class Spreadsheet():
     def get_nrows(self):
         return self.numrows
 
-    def get_cell(self, coordinate:Coordinate):
+    def get_cell(self, coordinate:Coordinate) -> Cell:
         return self.cells.at[coordinate.get_row(), coordinate.get_column()]
     
     #crec q sha de treure
