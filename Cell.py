@@ -6,17 +6,24 @@ from Content import Content
 
 class Cell(Argument,Operand):
 
-    def __init__(self, coordinate:Coordinate):
-
-        self.coordinate = coordinate
-        self.content = None
+    def __init__(self, coordinate):
+        self.coordinate = Coordinate(coordinate)
+        self.content = ''
         self.dependsonme = []
-        self.idependon = None
+        self.idependon = []
     
     def get_coordinate(self):
+        #si ho faig servir aixi es un str i no un objecte coordinate
+        #return self.coordinate.get_coordinate()
         return self.coordinate
     
-    def get_content(self):
+    def get_row(self):
+        return self.coordinate.get_row()
+
+    def get_col(self):
+        return self.coordinate.get_column()
+
+    def get_content(self) -> str:
         return self.content
 
     def get_idependon(self):
