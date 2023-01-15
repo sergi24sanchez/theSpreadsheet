@@ -10,19 +10,19 @@ class FilesManager():
         #crea sempre una fila i columna de mes
         with open('awa.txt', 'r') as file:
             lines = file.readlines()
-            ncols = len(lines)
-            nrows = []
+            nrows = len(lines)
+            ncols = []
             for line in lines:
-                row_no_n = line.split('\n')[0]
-                print(row_no_n)
-                nrows.append(len(row_no_n.split(';')))
-            nrows = min(nrows)
-            print(f'awa cols ={ncols} rows = {nrows}')
+                col_no_n = line.split('\n')[0]
+                #print(col_no_n)
+                ncols.append(len(col_no_n.split(';')))
+            ncols = min(ncols)
+            #print(f'awa cols ={nrows} rows = {ncols}')
             spreadsheet = Spreadsheet(nrows, ncols)
             for idline, line in enumerate(lines):
                 content = line.split(';')
                 for idcol, cell in enumerate(content):
-                    print(cell)
+                    #print(cell)
                     spreadsheet.get_cells().at[idline+1, column_number_to_letter(idcol+1)] = cell
             print(spreadsheet.get_cells())
         return spreadsheet.get_cells()
