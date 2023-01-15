@@ -1,0 +1,60 @@
+'''class Cell'''
+from Argument import Argument
+from Component import Operand
+from Coordinate import Coordinate
+from Content import Content
+
+class Cell(Argument,Operand):
+
+    def __init__(self, coordinate):
+        self.coordinate = Coordinate(coordinate)
+        self.content = ''
+        self.dependsonme = []
+        self.idependon = []
+    
+    def get_coordinate(self):
+        #si ho faig servir aixi es un str i no un objecte coordinate
+        #return self.coordinate.get_coordinate()
+        return self.coordinate
+    
+    def get_row(self):
+        return self.coordinate.get_row()
+
+    def get_col(self):
+        return self.coordinate.get_column()
+
+    def get_content(self) -> str:
+        return self.content
+
+    def get_idependon(self):
+        return self.idependon
+
+    def get_dependsonme(self):
+        return self.dependsonme
+
+    def get_for_print(self):
+        pass
+
+    def set_content(self, content:Content):
+        self.content = content
+
+    def set_coordinate(self,coordinate:Coordinate):
+        self.coordinate = coordinate
+
+    def set_idependon(self, cells):
+        #cells: list of cells or a Cell that will be given
+        self.idependon = cells
+
+    def add_dependsonme(self, coordinate:Coordinate):
+        self.dependsonme.append(coordinate)
+
+    def set_argument_value(self):
+        pass
+
+    def get_argument_value(self):
+        pass
+
+""" cell = Cell('D9')
+print(f'awa {cell.get_coordinate()}')
+print(f'awa {cell.get_row()}')
+print(f'awa {cell.get_col()}') """
