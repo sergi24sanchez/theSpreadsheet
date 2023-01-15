@@ -3,16 +3,12 @@ from Exceptions import BadCoordinateException, ContentException, InputError
 
 class UI():
     def __init__(self):
-        self.controller = SpreadsheetController()
+        pass
 
     def print_menu(self):
         print("Select one option: \n\t - Press 'RF' to read the rest of commands from a file \n\t - Press 'C' for creating a new Spreadsheet \n\t - Press 'E' to edit a Cell \n\t - Press 'L' to Load an existing Spreadsheet from a file \n\t - Press 'S' to save the Spreadsheet to file \n\t - Press 'F' to finish session")
 
-
-    def get_SpreadsheetController(self) -> SpreadsheetController:
-        return self.controller
-
-    def start_session(self):
+    def start_session(self, controller:SpreadsheetController):
         print("Welcome, what action do you want to do?")
         end = False
         while not end:
@@ -25,23 +21,23 @@ class UI():
                     end = True
                     break
                 elif command == "rf":
-                    self.controller.read_command_from_file()
+                    controller.read_command_from_file()
                 elif command == "c":
                     print('Write the number of rows you want the new spreadsheet to have:')
                     nrows = input()
                     print('Write the number of columns you want the new spreadsheet to have:')
                     ncols = input()
-                    self.controller.create_spreadsheet(nrows, ncols)
+                    controller.create_spreadsheet(nrows, ncols)
                 elif command == "e":
-                    self.controller.edit_cell()
+                    controller.edit_cell()
                 elif command == "l":
                     print('Introduce the path of the file you want to load. Include the name and also the extension .txt')
                     path_load = input()
-                    self.controller.load_spreadsheet_from_file(path_load)
+                    controller.load_spreadsheet_from_file(path_load)
                 elif command == "s":
                     print('Introduce the output path of the file you want to save. Include the name and also the extension .txt')
                     path_save = input()
-                    self.controller.save_spreadsheet_to_file(path_save)
+                    controller.save_spreadsheet_to_file(path_save)
                 else:
                     raise InputError("Invalid input")
             except BadCoordinateException as e:

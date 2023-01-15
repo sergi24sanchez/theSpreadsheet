@@ -1,3 +1,5 @@
+from Cell import Cell
+
 class DependenciesManager():
 
     def __init__(self):
@@ -6,5 +8,6 @@ class DependenciesManager():
     def recalculate_dependent_cells(self):
         pass
 
-    def search_cirucular_dependencies(self):
+    def search_cirucular_dependencies(self, cell:Cell):
+        
         pass

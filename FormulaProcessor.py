@@ -17,11 +17,11 @@ from Function import Function, Max, Min, Promedio, Suma
 
 class FormulaProcessor:
 
-    def __init__(self) -> None:
-        self.tokenizer = Tokenizer()
-        self.parser = Parser(self.tokenizer.token_infos)
-        self.generator = PostFixGenerator()
-        #self.evaluator = PostfixEvaluator()
+    def __init__(self, tokenizer, parser, generator, evaluator) -> None:
+        self.tokenizer = tokenizer
+        self.parser = parser
+        self.generator = generator
+        self.evaluator = evaluator
 
     # ENCARA NO PODEM CRIDAR A SPREADSHEET
     # def create_formula(self, input_string:str, spreadsheet)-> Formula:
@@ -159,7 +159,7 @@ class FormulaProcessor:
     def recalculate_formula_value(formula:Formula):
         pass
 
-def main():
+""" def main():
     
     string = input("Enter string: ")
     formula_processor = FormulaProcessor()
@@ -170,4 +170,4 @@ def main():
         print(elem.get_operand_value())
 
 if __name__ == "__main__":
-    main()
+    main() """

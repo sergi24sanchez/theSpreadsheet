@@ -18,6 +18,7 @@ class SpreadsheetController:
         #self.formulaFactory = FormulaFactory()
         #self.factory = None 
         self.formula_factory = FormulaFactory()
+        self.formula_processor = self.formula_factory.get_formula_processor()
 
     def create_spreadsheet(self, nrows, ncols):
         self.spreadSheet = Spreadsheet(nrows, ncols)
@@ -91,5 +92,3 @@ class SpreadsheetController:
     def read_command_from_file(self):
         print('reading command from file')
         
-
-    
