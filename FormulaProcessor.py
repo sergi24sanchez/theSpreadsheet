@@ -34,9 +34,10 @@ class FormulaProcessor:
         postfix_expression_as_tokens = self.generator.generate_expression(token_sequence)
         # Convert List[Token] into List[Component]
         postfix_expression_as_components = self.convert_tokens_into_components(
-            tokens=postfix_expression_as_tokens,
+            postfix_tokens=postfix_expression_as_tokens,
             # spreadsheet=spreadsheet,
         )
+        return postfix_expression_as_components
     
     # ENCARA NO PODEM CRIDAR A SPREADSHEET
     # def convert_tokens_into_components(self,postfix_tokens:List[Token],spreadsheet=spreadsheet)->List[Component]:
@@ -89,8 +90,8 @@ class FormulaProcessor:
                 # GO BACK TO THE L_BRACKET OF THE FUNCTION
                 inner_count -=1
                 function_component = self.generate_function(
-                    tokens=postfix_tokens,
-                    inicio=count,
+                    token_list=postfix_tokens,
+                    init=count,
                     final=inner_count,
                     # spreadsheet=spreadsheet,
                 )
@@ -105,9 +106,9 @@ class FormulaProcessor:
     # def generate_function(self,token_list:List[Token],init:int,final:int,spreadsheet=spreadsheet)->Function:
     def generate_function(self,token_list:List[Token],init:int,final:int)->Function:
         arguments = []
-        function_tokens = token_list[init:final]  # name&( tokens are included
+        function_tokens = token_list[init:final+1]  # name&( tokens are included
         i = 2   # TO START FROM THE FIRST ARGUMENT
-        while i < len(function_tokens)-2:
+        while i < len(function_tokens):
             token = function_tokens[i]
             if token.type == TokenEnum.NUMBER:
                 number_arg = Number(number=float(token.get_sequence()))
@@ -133,8 +134,8 @@ class FormulaProcessor:
                     inner_count +=1
                 inner_count -=1
                 function_arg = self.generate_function(
-                    tokens=function_tokens,
-                    inicio=i,
+                    token_list=function_tokens,
+                    init=i,
                     final=inner_count,
                     # spreadsheet=spreadsheet,
                 )
@@ -166,7 +167,7 @@ def main():
     postfix_components = formula_processor.create_formula(string)
 
     for elem in postfix_components:
-        print(elem)
+        print(elem.get_operand_value())
 
 if __name__ == "__main__":
     main()

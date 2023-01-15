@@ -38,3 +38,9 @@ class Range(Argument):
 
     def get_argument_value(self):
         return self.range_val
+
+    def get_operand_value(self):
+        return self.range_val
+    
+    def set_operand_value(self,value):
+        self.range_val = value

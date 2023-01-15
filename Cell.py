@@ -46,3 +46,6 @@ class Cell(Argument,Operand):
 
     def get_argument_value(self):
         pass
+    
+    def get_operand_value(self):
+        return self.content

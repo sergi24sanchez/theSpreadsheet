@@ -6,6 +6,8 @@ Class Formula
 '''
 
 from abc import ABC, abstractmethod
+from FloatValue import FloatValue
+from StringValue import StringValue
 
 class Content(ABC):
 

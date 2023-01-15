@@ -10,3 +10,9 @@ class Number(Argument):
 
     def get_argument_value(self):
         return self.number_value
+    
+    def get_operand_value(self):
+        return self.number_value
+    
+    def set_operand_value(self,value):
+        self.number_value = float(value)
