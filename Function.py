@@ -7,68 +7,135 @@ class Promedio
 '''
 
 from abc import ABC, abstractclassmethod
+from typing import List
 from Component import Operand
 from Argument import Argument
 
+from enum import Enum
+
+class FunctionEnum(Enum):
+    SUMA = "SUMA"
+    PROMEDIO = "PROMEDIO"
+    MAX = "MAX"
+    MIN = "MIN"
+
+
 class Function(Argument,Operand,ABC):
 
-    def __init__(self, arguments_list) -> None:
+    def __init__(self, arguments_list:List[Argument]) -> None:
         '''
         arguments_list = every item of this list is of type Argument (a subclass)
         '''
-        Argument.__init__(self)
-        Operand.__init__(self)
-        self.arguments = arguments_list
-        self.result = None
-   
-    def calculate_arguments_value(self):
-        #REVIEW THIS IS NOT CORRECT
-        for arg in self.arguments:
-            self.argument_val.append(arg.get_argument_value(arg))
-
+        self.arguments = arguments_list # vacia, y despues un metodo de añadir argumentos
+        self.value = self.compute_value()
+    
+   # ARGUMENT CLASS METHODS 
     @abstractclassmethod
-    def compute_result(self):
+    def get_argument_value():
+        # metodo polimorfico
         pass
     
-    def set_result(self):
-        self.result = self.compute_result()
+    @abstractclassmethod
+    def set_argument_value(self):
+        pass
+    
+    @abstractclassmethod
+    def compute_value(self):
+        pass
 
-    def get_result(self):
-        return self.result
+    @abstractclassmethod
+    def get_operand_value(self):
+        pass
+    
+    @abstractclassmethod
+    def set_operand_value(self):
+        pass   
 
-class Suma(Function):
 
-    def __init__(self) -> None:
-        super().__init__()
-            
-    def compute_result(self):
-        res = sum(self.argument_val)
+class Suma(Function): 
+
+    def __init__(self,arguments_list) -> None:
+        super().__init__(arguments_list)
+             
+    def compute_value(self):
+        res = sum([argument.get_argument_value() for argument in self.arguments])
         return res
+    
+    def get_argument_value(self):
+        return self.value
+    
+    def get_operand_value(self):
+        return self.value
+    
+    def set_argument_value(self,value):
+        self.value = value
+    
+    def set_operand_value(self,value):
+        self.value = value
 
 
 class Min(Function):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self,arguments_list) -> None:
+        super().__init__(arguments_list)
 
-    def compute_result(self):
-        res = min(self.argument_val)
+    def compute_value(self):
+        res = min([argument.get_argument_value() for argument in self.arguments])
         return res
+    
+    def get_argument_value(self):
+        return self.value
+    
+    def get_operand_value(self):
+        return self.value
+    
+    def set_argument_value(self,value):
+        self.value = value
+    
+    def set_operand_value(self,value):
+        self.value = value
+
 
 class Max(Function):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self,arguments_list) -> None:
+        super().__init__(arguments_list)
 
-    def compute_result(self):
-        res = max(self.argument_val)
-        return res  
+    def compute_value(self):
+        res = max([argument.get_argument_value() for argument in self.arguments])
+        return res
+    
+    def get_argument_value(self):
+        return self.value
+    
+    def get_operand_value(self):
+        return self.value
+    
+    def set_argument_value(self,value):
+        self.value = value
+    
+    def set_operand_value(self,value):
+        self.value = value
+
 
 class Promedio(Function):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self,arguments_list) -> None:
+        super().__init__(arguments_list)
 
-    def compute_result(self):
-        res = (sum(self.argument_val))/(len(self.argument_val))
-        return res  
+    def compute_value(self):
+        suma = sum([argument.get_argument_value() for argument in self.arguments])
+        res = (suma)/(len(self.arguments))
+        return res 
+    
+    def get_argument_value(self):
+        return self.value
+    
+    def get_operand_value(self):
+        return self.value
+    
+    def set_argument_value(self,value):
+        self.value = value
+    
+    def set_operand_value(self,value):
+        self.value = value

@@ -33,8 +33,14 @@ class Range(Argument):
                 all_cells.append(f'{col_letter}{row}')        
         return all_cells
 
-    def set_argument_value(self):
+    def set_argument_value(self,value):
         self.range_val = self.get_all_cells()
 
     def get_argument_value(self):
         return self.range_val
+
+    def get_operand_value(self):
+        return self.range_val
+    
+    def set_operand_value(self,value):
+        self.range_val = value

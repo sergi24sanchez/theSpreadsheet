@@ -53,8 +53,6 @@ class Cell(Argument,Operand):
 
     def get_argument_value(self):
         pass
-
-""" cell = Cell('D9')
-print(f'awa {cell.get_coordinate()}')
-print(f'awa {cell.get_row()}')
-print(f'awa {cell.get_col()}') """
+    
+    def get_operand_value(self):
+        return self.content

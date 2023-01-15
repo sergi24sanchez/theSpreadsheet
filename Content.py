@@ -6,6 +6,8 @@ Class Formula
 '''
 
 from abc import ABC, abstractmethod
+from FloatValue import FloatValue
+from StringValue import StringValue
 
 class Content(ABC):
 
@@ -17,10 +19,6 @@ class Content(ABC):
     
     def set_content(self,input_string):
         self.input_string = input_string
-    
-    @abstractmethod
-    def compute_value(self):
-        pass
     
     @abstractmethod
     def get_for_print(self):
@@ -38,9 +36,6 @@ class Numerical(Content):
     
     def set_content(self, input_string):
         return super().set_content(input_string)
-
-    def get_for_print(self):
-        return 
     
     def compute_value(self):
         self.number_value = int(self.input_string)  # Is it OK?
@@ -57,9 +52,6 @@ class Text(Content):
 
     def set_content(self, input_string):
         return super().set_content(input_string)
-
-    def get_for_print(self):
-        return 
     
     def compute_value(self):
         self.string_value = self.input_string
@@ -76,9 +68,6 @@ class Formula(Content):
     
     def set_content(self, input_string):
         return super().set_content(input_string)
-
-    def get_for_print(self):
-        return 
     
     def compute_value(self):
         # STILL NOT IMPLEMENTED
