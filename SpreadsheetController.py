@@ -1,6 +1,7 @@
 #from UI import UI
 from Tokenizer import Tokenizer
-from ExpressionGenerator import PostfixGenerator
+from FormulaFactory import FormulaFactory
+from FormulaProcessor import FormulaProcessor
 from Spreadsheet import Spreadsheet
 from Cell import Cell
 from Coordinate import Coordinate
@@ -16,7 +17,7 @@ class SpreadsheetController:
         #self.textFactory = TextFactory()
         #self.formulaFactory = FormulaFactory()
         #self.factory = None 
-        self.generator = PostfixGenerator()
+        self.formula_factory = FormulaFactory()
 
     def create_spreadsheet(self, nrows, ncols):
         self.spreadSheet = Spreadsheet(nrows, ncols)
