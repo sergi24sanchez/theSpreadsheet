@@ -1,5 +1,4 @@
 #from UI import UI
-from FilesManager import FilesManager
 from Tokenizer import Tokenizer
 from ExpressionGenerator import PostfixGenerator
 from Spreadsheet import Spreadsheet
@@ -10,7 +9,6 @@ from utils import column_number_to_letter, column_letter_to_number
 class SpreadsheetController:
     def __init__(self):
         self.spreadSheet = None
-        self.files_manager = FilesManager()
         #self.ui = ui
         self.tokenizer = Tokenizer()
         #NOt sure about the Factories yet
