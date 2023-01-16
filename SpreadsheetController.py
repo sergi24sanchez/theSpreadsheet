@@ -30,6 +30,14 @@ class SpreadsheetController:
     def initialize_spreadsheet(self):
         pass
 
+    def check_type_content(content:str):
+        #mirar si es number, str o formula
+        pass
+
+    def check_coordinate():
+        #check if the coordinate of the cell exists otherwise raise exception
+        pass
+
     def edit_cell(self, cell:Cell, content:str):
         cell.set_content(content)
         #faltaria fer un compute value, mirar dependencies ...

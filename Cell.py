@@ -23,7 +23,7 @@ class Cell(Argument,Operand):
     def get_col(self):
         return self.coordinate.get_column()
 
-    def get_content(self) -> str:
+    def get_content(self):
         return self.content
 
     def get_idependon(self):
@@ -33,7 +33,7 @@ class Cell(Argument,Operand):
         return self.dependsonme
 
     def get_for_print(self):
-        pass
+        self.content.get_for_print()
 
     def set_content(self, content:Content):
         self.content = content

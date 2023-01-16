@@ -56,6 +56,6 @@ class UI():
 # controller.load_spreadsheet_from_file('awa.txt')
 # controller.save_spreadsheet_to_file('awa2.txt')
 # #print(spread)
-
+controller = SpreadsheetController()
 ui = UI()
-ui.start_session()
+ui.start_session(controller)
