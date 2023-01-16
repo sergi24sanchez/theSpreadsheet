@@ -1,5 +1,5 @@
 from SpreadsheetController import SpreadsheetController
-from Exceptions import BadCoordinateException, ContentException, InputError
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.bad_coordinate_exception import BadCoordinateException
 
 class UI():
     def __init__(self):

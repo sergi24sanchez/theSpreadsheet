@@ -1,5 +1,5 @@
 from Value import Value
-from Exceptions import NoNumberException
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.no_number_exception import NoNumberException
 
 class StringValue(Value):
 

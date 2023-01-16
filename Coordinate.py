@@ -4,8 +4,10 @@ import re
 class Coordinate():
 
     def __init__(self, coordinates):
+        #falta throw BadCoordinateException
         self.row = int(re.findall(r'\d+', coordinates)[0])
         self.column = re.findall(r'[a-zA-Z]+', coordinates)[0]
+        
         
     def get_coordinate(self):
         return f'{self.column}{self.row}'
