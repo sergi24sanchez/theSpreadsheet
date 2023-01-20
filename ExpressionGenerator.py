@@ -97,25 +97,3 @@ class PostFixGenerator(ExpressionGenerator):
                 raise ValueError("Mismatched Parenthesis")
             output_list.append(stack.pop())
         return output_list
-
-
-def main():
-    tokenizer = Tokenizer()
-    parser = Parser(tokenizer.token_infos)
-    postfix_generator = PostFixGenerator()
-    string = input("Enter string: ")
-    try:
-        token_sequence = tokenizer.tokenize(string)
-
-        print("INFIX:")
-        print([token.get_sequence() for token in token_sequence])
-        if parser.parse(token_sequence):
-            output = postfix_generator.generate_expression(token_sequence)
-        print("POSTFIX")
-        print([token.get_sequence() for token in output])
-        
-    except ParserException as ex:
-        print(ex)
-
-if __name__ == "__main__":
-    main()

@@ -1,2 +1,5 @@
 /__pycache__
 *.txt
+*.ipynb
+# Compiled Python bytecode
+*.py[cod]

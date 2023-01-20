@@ -1,10 +1,9 @@
 from typing import List
+
 from Tokenizer import Tokenizer, ParserException, Token, TokenEnum
 from Parser_ import Parser
-from ExpressionGenerator import PostFixGenerator
-from ExpressionEvaluator import PostfixEvaluator
-
-from FormulaFactory import FormulaFactory
+from ExpressionGenerator import ExpressionGenerator, PostFixGenerator
+from ExpressionEvaluator import ExpressionEvaluator, PostfixEvaluator
 
 from Content import Formula
 
@@ -15,9 +14,11 @@ from Range import Range
 from Number import Number
 from Function import Function, Max, Min, Promedio, Suma
 
+from FloatValue import FloatValue
+
 class FormulaProcessor:
 
-    def __init__(self, tokenizer, parser, generator, evaluator) -> None:
+    def __init__(self, tokenizer:Tokenizer, parser:Parser, generator:ExpressionGenerator, evaluator:ExpressionEvaluator) -> None:
         self.tokenizer = tokenizer
         self.parser = parser
         self.generator = generator
@@ -37,7 +38,13 @@ class FormulaProcessor:
             postfix_tokens=postfix_expression_as_tokens,
             # spreadsheet=spreadsheet,
         )
-        return postfix_expression_as_components
+        calculated_value = self.evaluator.evaluate_expression(postfix_expression_as_components)
+
+        formula = Formula(input_string=input_string)
+        formula.set_components(postfix_expression_as_components)
+        formula.set_value(value_=FloatValue(float_value=calculated_value))
+
+        return formula
     
     # ENCARA NO PODEM CRIDAR A SPREADSHEET
     # def convert_tokens_into_components(self,postfix_tokens:List[Token],spreadsheet=spreadsheet)->List[Component]:
@@ -159,15 +166,19 @@ class FormulaProcessor:
     def recalculate_formula_value(formula:Formula):
         pass
 
-""" def main():
+def main():
     
+    tokenizer = Tokenizer()
+    parser = Parser(tokenizer.token_infos)
+    generator = PostFixGenerator()
+    evaluator = PostfixEvaluator()
+    formula_processor = FormulaProcessor(tokenizer, parser, generator, evaluator)
+
     string = input("Enter string: ")
-    formula_processor = FormulaProcessor()
+    formula_obj = formula_processor.create_formula(string)
 
-    postfix_components = formula_processor.create_formula(string)
-
-    for elem in postfix_components:
-        print(elem.get_operand_value())
+    print("FORMULAbjALUE:")
+    print(formula_obj.get_for_print())
 
 if __name__ == "__main__":
-    main() """
+    main()
