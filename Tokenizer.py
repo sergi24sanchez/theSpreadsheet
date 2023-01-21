@@ -1,6 +1,8 @@
 import re
 from re import compile as re_compile
 from collections import deque
+from Exceptions import ParserException
+
 
 class TokenInfo:
     def __init__(self, regex, type_):
@@ -31,11 +33,6 @@ class TokenEnum(Enum):
     RIGHT_BRACKET = 6
     SEMI_COLON = 7
     FUNCTION = 8
-
-
-class ParserException(Exception):
-    def __init__(self, msg):
-        self.msg = msg
 
 
 class Tokenizer:

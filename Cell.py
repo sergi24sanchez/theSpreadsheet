@@ -6,8 +6,8 @@ from Content import Content
 
 class Cell(Argument,Operand):
 
-    def __init__(self, coordinate):
-        self.coordinate = Coordinate(coordinate)
+    def __init__(self, coordinate_:Coordinate):
+        self.coordinate = coordinate_
         self.content = ''
         self.dependsonme = []
         self.idependon = []
@@ -52,7 +52,9 @@ class Cell(Argument,Operand):
         pass
 
     def get_argument_value(self):
-        pass
+        '''It gets the content's Value object's value'''
+        return self.content.get_value().get_value()
     
     def get_operand_value(self):
-        return self.content
+        '''It gets the content's Value object's value'''
+        return self.content.get_value().get_value()

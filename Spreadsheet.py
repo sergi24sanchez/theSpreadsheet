@@ -3,7 +3,8 @@ from Cell import Cell
 from utils import column_number_to_letter
 import pandas as pd
 from Exceptions import InputError
-class Spreadsheet():
+
+class Spreadsheet:
 
     def __init__(self, num_rows, num_cols):
         self.numcols = int(num_cols)

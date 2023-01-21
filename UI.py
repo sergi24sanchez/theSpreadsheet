@@ -29,7 +29,12 @@ class UI():
                     ncols = input()
                     controller.create_spreadsheet(nrows, ncols)
                 elif command == "e":
-                    controller.edit_cell()
+                    cell_cordinate = input('Write the cell you want to edit: ')
+                    cell_content = input('Write the content for the cell: ')
+                    controller.edit_cell(
+                        cell_coordinate=cell_cordinate,
+                        content=cell_content,
+                    )
                 elif command == "l":
                     print('Introduce the path of the file you want to load. Include the name and also the extension .txt')
                     path_load = input()
