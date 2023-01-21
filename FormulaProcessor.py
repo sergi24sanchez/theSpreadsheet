@@ -16,7 +16,7 @@ from Range import Range
 from Number import Number
 from Function import Function, Max, Min, Promedio, Suma
 
-from FloatValue import FloatValue
+from NumberValue import NumberValue
 
 class FormulaProcessor:
 
@@ -46,7 +46,7 @@ class FormulaProcessor:
 
         formula = Formula(input_string=input_string)
         formula.set_components(postfix_expression_as_components)
-        formula.set_value(value_=FloatValue(float_value=calculated_value))
+        formula.compute_value(value_=calculated_value)
 
         return formula
     
@@ -170,7 +170,7 @@ class FormulaProcessor:
         the formula from the formula's components'''
 
         calculated_value = self.evaluator.evaluate_expression(formula.get_components())
-        formula.set_value(value_=FloatValue(float_value=calculated_value))
+        formula.set_value(value_=NumberValue(float_value=calculated_value))
 
 def main():
     

@@ -30,7 +30,9 @@ def column_number_to_letter(column_number):
         column_letter = chr(65 + remainder) + column_letter
     return column_letter
 
-def check_string(string):
+from Content import ContentEnum
+
+def check_string(string:str):
     """
     This function takes a string as input and checks if the first character is "=" and if the entire string is a number or text.
     If the first character is "=" it returns "equal sign"
@@ -43,10 +45,10 @@ def check_string(string):
     :rtype: str
     """
     if string[0] == "=":
-        return "equal sign"
+        return ContentEnum.FORMULA
     elif string.isdigit():
-        return "number"
+        return ContentEnum.NUMERICAL
     elif string.isalpha():
-        return "text"
+        return ContentEnum.TEXT
     else:
         return "other"

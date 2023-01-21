@@ -5,7 +5,7 @@ from FormulaFactory import FormulaFactory
 from FormulaProcessor import FormulaProcessor
 from Spreadsheet import Spreadsheet
 from Cell import Cell
-from Content import Content, Formula, Numerical, Text
+from Content import Content, Formula, Numerical, Text, ContentEnum
 from Coordinate import Coordinate
 from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.content_exception import ContentException
 from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.bad_coordinate_exception import BadCoordinateException
@@ -15,12 +15,6 @@ from Exceptions import *
 class SpreadsheetController:
     def __init__(self):
         self.spreadSheet = None
-        #self.ui = ui
-        self.tokenizer = Tokenizer()
-        #NOt sure about the Factories yet
-        #self.numericalFact = NumericalFactory()
-        #self.textFactory = TextFactory()
-        #self.factory = None 
         self.formula_factory = FormulaFactory()
         self.formula_processor = self.formula_factory.get_formula_processor()
 
@@ -35,28 +29,15 @@ class SpreadsheetController:
     def initialize_spreadsheet(self):
         pass
 
-    def check_type_content(self, content:str):
-
-        if content.startswith("="):
-            return 'isFormula'
-        try:
-            int(content)
-            return 'isNumerical'
-        except:
-            try:
-                str(content)
-                return 'isText'
-            except:
-                return 'noType'
-
-        return 'noType' 
-
-    def create_type_content(self, type:str, content:str):
-        if type == 'isFormula':
-            return Formula(content)
-        elif type == 'isText':
+    def create_content_by_type(self, type:str, content:str):
+        if type == ContentEnum.FORMULA:
+            return self.formula_processor.create_formula(
+                input_string=content,
+                spreadsheet=self.spreadSheet,
+            )
+        elif type == ContentEnum.TEXT:
             return Text(content)
-        elif type == 'isNumerical':
+        elif type == ContentEnum.NUMERICAL:
             return Numerical(content)
         else:
             raise ContentException("Incorrect content for a cell")
@@ -73,8 +54,20 @@ class SpreadsheetController:
         except BadCoordinateException as e:
             print(e)
             return
+        cell_obj = self.spreadSheet.get_cell(coordinate=coord)
+        
+        type = utils.check_string(content)
+        try:
+            content_obj = self.create_content_by_type(
+                type = type,
+                content=content,
+            )
+        except ContentException as e:
+            print(e)
+            return
+        
+        cell_obj.set_content(content_=content_obj)
 
-        #cell.set_content(content)
         #faltaria fer un compute value, mirar dependencies ...
 
     def load_spreadsheet_from_file(self, path:str):
@@ -137,7 +130,17 @@ class SpreadsheetController:
         print('reading command from file')
 
 def main():
-    pass
+    controller = SpreadsheetController()
+    controller.create_spreadsheet(
+        nrows=20,
+        ncols=20,
+    )
+    coord = input("COORDINATE: ")
+    cont = input("CONTENT: ")
+    controller.edit_cell(
+        cell_coordinate=coord,
+        content=cont,
+    )
 
 if __name__ == "__main__":
     main()

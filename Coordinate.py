@@ -3,7 +3,7 @@ import re
 from Exceptions import BadCoordinateException
 
 
-class Coordinate():
+class Coordinate:
 
     def __init__(self, coordinates:str):
         

@@ -1,8 +1,8 @@
 from Value import Value
 
-class FloatValue(Value):
+class NumberValue(Value):
 
-    def __init__(self, float_value):
+    def __init__(self, float_value:int|float):
         self.value = float_value
     
     def get_value(self):
