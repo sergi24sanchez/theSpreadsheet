@@ -9,13 +9,13 @@ class TestRunner:
 
     def __init__(self):
         self.toBeRun = [
-"edu.upc.etsetb.arqsoft.spreadsheet.marker.text_content_test.TextContentTest", \
-"edu.upc.etsetb.arqsoft.spreadsheet.marker.number_content_test.NumberContentTest", \
-"edu.upc.etsetb.arqsoft.spreadsheet.marker.formula_content_test.FormulaContentTest", \
-"edu.upc.etsetb.arqsoft.spreadsheet.marker.dependent_cells_test.DependentCellsTest", \
-"edu.upc.etsetb.arqsoft.spreadsheet.marker.circular_dependencies_test.CircularDependenciesTest", \
-"edu.upc.etsetb.arqsoft.spreadsheet.marker.save_test.SaveTest", \
-"edu.upc.etsetb.arqsoft.spreadsheet.marker.load_test.LoadTest" \
+"test_.edu.upc.etsetb.arqsoft.spreadsheet.marker.text_content_test.TextContentTest", \
+"test_.edu.upc.etsetb.arqsoft.spreadsheet.marker.number_content_test.NumberContentTest", \
+"test_.edu.upc.etsetb.arqsoft.spreadsheet.marker.formula_content_test.FormulaContentTest", \
+"test_.edu.upc.etsetb.arqsoft.spreadsheet.marker.dependent_cells_test.DependentCellsTest", \
+"test_.edu.upc.etsetb.arqsoft.spreadsheet.marker.circular_dependencies_test.CircularDependenciesTest", \
+"test_.edu.upc.etsetb.arqsoft.spreadsheet.marker.save_test.SaveTest", \
+"test_.edu.upc.etsetb.arqsoft.spreadsheet.marker.load_test.LoadTest" \
             ]
         self.porcentajes = [1.5,1.5,64.5,12.5,7.5,5,5]
         self.clasesAPorcentajes = {} #mapa <string (clase),float (porcentaje)>

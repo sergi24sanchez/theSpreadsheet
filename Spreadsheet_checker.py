@@ -1,3 +1,4 @@
+#from src.edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.spreadsheet_controller_for_checker import ISpreadsheetControllerForChecker
 from src.edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.spreadsheet_controller_for_checker import ISpreadsheetControllerForChecker
 from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.bad_coordinate_exception import BadCoordinateException
 from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.circular_dependency_exception import CircularDependencyException
@@ -9,13 +10,13 @@ from Exceptions import InputError
 from Coordinate import Coordinate
 from SpreadsheetController import SpreadsheetController
 
-def SpreadsheetChecker(ISpreadsheetControllerForChecker):
+class SpreadsheetChecker(ISpreadsheetControllerForChecker):
     def __init__(self):
         self.controller = SpreadsheetController()
 
     def set_cell_content(self, coord, str_content):
         try:
-            coordinate = Coordinate(coord)
+            coordinate = self.controller.check_coordinate(coord)
             cell_to_modify = self.controller.get_spreadsheet().get_cell(coordinate)
             cell_to_modify.set_content(str_content)
         except BadCoordinateException as e:
@@ -27,7 +28,7 @@ def SpreadsheetChecker(ISpreadsheetControllerForChecker):
 
     def get_cell_content_as_float(self, coord):
         try:
-            coordinate = Coordinate(coord)
+            coordinate = self.controller.check_coordinate(coord)
             cell = self.controller.spreadSheet.get_cell(coordinate)
             return cell.get_content().get_value().get_as_float()
         except BadCoordinateException as e:
@@ -37,7 +38,7 @@ def SpreadsheetChecker(ISpreadsheetControllerForChecker):
 
     def get_cell_content_as_string(self, coord):
         try:
-            coordinate = Coordinate(coord)
+            coordinate = self.controller.check_coordinate(coord)
             cell = self.controller.spreadSheet.get_cell(coordinate)
             return cell.get_content().get_value().get_as_string()
         except BadCoordinateException as e:
@@ -45,7 +46,7 @@ def SpreadsheetChecker(ISpreadsheetControllerForChecker):
 
     def get_cell_formula_expression(self, coord):
         try:
-            coordinate = Coordinate(coord)
+            coordinate = self.controller.check_coordinate(coord)
             cell = self.controller.spreadSheet.get_cell(coordinate)
             return cell.get_content().get_value().get_as_string()
         except BadCoordinateException as e:

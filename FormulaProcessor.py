@@ -4,8 +4,6 @@ from Parser_ import Parser
 from ExpressionGenerator import PostFixGenerator
 from ExpressionEvaluator import PostfixEvaluator
 
-from FormulaFactory import FormulaFactory
-
 from Content import Formula
 
 # TYPES OF FORMULA COMPONENT

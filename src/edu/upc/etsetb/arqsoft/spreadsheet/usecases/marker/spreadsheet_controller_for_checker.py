@@ -1,5 +1,9 @@
+from abc import ABC, abstractclassmethod
 
-class ISpreadsheetControllerForChecker:
+class ISpreadsheetControllerForChecker(ABC):
+    @abstractclassmethod
+    def __init__(self):
+        pass
 
     ##@brief Tries to set the content of a cell of the spreadsheet in a certain coordinate. See complete specification below following the link.
     #
@@ -15,7 +19,7 @@ class ISpreadsheetControllerForChecker:
     #
     # @exception CircularDependencyException if the code detects that the strContent is
     # formula that introduces in the spreadsheet some circular dependency
-
+    @abstractclassmethod
     def set_cell_content(self, coord, str_content):
         pass
 
@@ -32,7 +36,7 @@ class ISpreadsheetControllerForChecker:
     #
     # @exception NoNumberException if the cell contains textual content whose value is a string that is not the textual
     # representation of a number
-
+    @abstractclassmethod
     def get_cell_content_as_float(self, coord):
         pass
 
@@ -46,7 +50,7 @@ class ISpreadsheetControllerForChecker:
     # string representing the number resulting of evaluating such formula
     #
     # @exception BadCoordinateException if the cellCoord argument does not represent a proper spreadsheet coordinate
-
+    @abstractclassmethod
     def get_cell_content_as_string(self, coord):
         pass
 
@@ -59,7 +63,7 @@ class ISpreadsheetControllerForChecker:
     #
     # @exception BadCoordinateException if the coord argument does not represent a legal coordinate in the spreadsheet
     # OR if the coord argument represents a legal coordinate BUT cell in this coordinate DOES NOT CONTAIN A FORMULA
-
+    @abstractclassmethod
     def get_cell_formula_expression(self, coord):
         pass
 
@@ -70,7 +74,7 @@ class ISpreadsheetControllerForChecker:
     # absolute path shall be computed using the following expression: os.path.join(os.getcwd(),s_name_in_user_dir)
     #
     # @exception SavingSpreadSheetException if something has gone wrong while trying to write the spreadsheet into the aforementioned file
-
+    @abstractclassmethod
     def save_spreadsheet_to_file(self, s_name_in_user_dir):
         pass
 
@@ -82,6 +86,6 @@ class ISpreadsheetControllerForChecker:
     #
     # @exception SReadingSpreadSheetException if something has gone wrong while trying to create spreadsheet and fill
     # it with the data present within the aforementioned file.
-
+    @abstractclassmethod
     def load_spreadsheet_from_file(self, s_name_in_user_dir):
         pass

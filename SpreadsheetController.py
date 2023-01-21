@@ -4,7 +4,10 @@ from FormulaFactory import FormulaFactory
 from FormulaProcessor import FormulaProcessor
 from Spreadsheet import Spreadsheet
 from Cell import Cell
+from Content import Content, Formula, Numerical, Text
 from Coordinate import Coordinate
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.content_exception import ContentException
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.bad_coordinate_exception import BadCoordinateException
 from utils import column_number_to_letter, column_letter_to_number
 
 class SpreadsheetController:
@@ -27,16 +30,42 @@ class SpreadsheetController:
     def get_spreadsheet(self):
         return self.spreadSheet
 
+    #crec q no cal
     def initialize_spreadsheet(self):
         pass
 
-    def check_type_content(content:str):
-        #mirar si es number, str o formula
-        pass
+    def check_type_content(self, content:str):
 
-    def check_coordinate():
-        #check if the coordinate of the cell exists otherwise raise exception
-        pass
+        if content.startswith("="):
+            return 'isFormula'
+        try:
+            int(content)
+            return 'isNumerical'
+        except:
+            try:
+                str(content)
+                return 'isText'
+            except:
+                return 'noType'
+
+        return 'noType' 
+
+    def create_type_content(self, type:str, content:str):
+        if type == 'isFormula':
+            return Formula(content)
+        elif type == 'isText':
+            return Text(content)
+        elif type == 'isNumerical':
+            return Numerical(content)
+        else:
+            raise ContentException("Incorrect content for a cell")
+
+    def check_coordinate(self, coord:str):
+        coordinate = Coordinate(coord)
+        if (coordinate.get_row() > self.spreadSheet.get_nrows()) and (column_letter_to_number(coordinate.get_column) > self.spreadSheet.get_ncols()):
+            raise BadCoordinateException("The coordinate introduced is not valid")
+
+        return coordinate
 
     def edit_cell(self, cell:Cell, content:str):
         cell.set_content(content)
@@ -73,7 +102,6 @@ class SpreadsheetController:
         
     def save_spreadsheet_to_file(self, path:str):
         #self.files_manager.save_spreadsheet(path, self.spreadSheet)
-                #crec q sobra un ; del final de linia
         df = self.spreadSheet.get_cells()
         cols = self.spreadSheet.get_ncols()
         rows = self.spreadSheet.get_nrows()

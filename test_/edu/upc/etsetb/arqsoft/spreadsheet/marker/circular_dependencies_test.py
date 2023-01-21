@@ -1,9 +1,11 @@
 import traceback
 from unittest.mock import MagicMock, call, Mock
-from edu.upc.ac.marker.ClasesCorrector import SuperClassForTests
-from edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.spread_sheet_factory_for_checker import SpreadSheetFactoryForChecker
-from edu.upc.etsetb.arqsoft.spreadsheet.entities.circular_dependency_exception import CircularDependencyException
-
+#from src.edu.upc.ac.marker.ClasesCorrector import SuperClassForTests
+#from src.edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.spread_sheet_factory_for_checker import SpreadSheetFactoryForChecker
+#from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.circular_dependency_exception import CircularDependencyException
+from ClasesCorrector import SuperClassForTests
+from spread_sheet_factory_for_checker import SpreadSheetFactoryForChecker
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.circular_dependency_exception import CircularDependencyException
 
 class CircularDependenciesTest(SuperClassForTests):
 

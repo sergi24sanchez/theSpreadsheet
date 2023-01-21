@@ -1,7 +1,9 @@
 import traceback
 from unittest.mock import MagicMock, call
-from edu.upc.ac.marker.ClasesCorrector import SuperClassForTests
-from edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.spread_sheet_factory_for_checker import SpreadSheetFactoryForChecker
+#from src.edu.upc.ac.marker.ClasesCorrector import SuperClassForTests
+#from src.edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.spread_sheet_factory_for_checker import SpreadSheetFactoryForChecker
+from ClasesCorrector import SuperClassForTests
+from spread_sheet_factory_for_checker import SpreadSheetFactoryForChecker
 
 
 class NumberContentTest(SuperClassForTests):
