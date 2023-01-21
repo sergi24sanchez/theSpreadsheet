@@ -4,20 +4,23 @@ Class Numerical
 Class Text
 Class Formula
 '''
-
 from abc import ABC, abstractmethod
+from typing import List
+
 from FloatValue import FloatValue
 from StringValue import StringValue
+
+from Component import Component
 
 class Content(ABC):
 
     def __init__(self, input_string):
         self.input_string = input_string
     
-    def get_content(self):
+    def get_input_string(self):
         return self.input_string
     
-    def set_content(self,input_string):
+    def set_input_string(self,input_string):
         self.input_string = input_string
     
     @abstractmethod
@@ -43,11 +46,11 @@ class Numerical(Content):
         super().__init__(input_string)
         self.value = None
     
-    def get_content(self):
-        return super().get_content()
+    def get_input_string(self):
+        return super().get_input_string()
     
-    def set_content(self, input_string):
-        return super().set_content(input_string)
+    def set_input_string(self, input_string):
+        return super().set_input_string(input_string)
     
     def compute_value(self):
         self.number_value = int(self.input_string)  # Is it OK?
@@ -62,22 +65,24 @@ class Numerical(Content):
         return f'{self.value}'
     
 
+from StringValue import StringValue
+
 class Text(Content):
 
     def __init__(self, input_string):
         super().__init__(input_string)
         self.value = None
     
-    def get_content(self):
-        return super().get_content()
+    def get_input_string(self):
+        return super().get_input_string()
 
-    def set_content(self, input_string):
-        return super().set_content(input_string)
+    def set_input_string(self, input_string):
+        return super().set_input_string(input_string)
     
     def compute_value(self):
         self.string_value = self.input_string
 
-    def set_value(self, value):
+    def set_value(self, value:StringValue):
         self.value = value
 
     def get_value(self):
@@ -87,27 +92,36 @@ class Text(Content):
         return f'{self.value}'
 
 
+from FloatValue import FloatValue
+
 class Formula(Content):
 
     def __init__(self, input_string):
         super().__init__(input_string)
         self.value = None
+        self.components = None
     
-    def get_content(self):
-        return super().get_content()
+    def get_input_string(self):
+        return super().get_input_string()
     
-    def set_content(self, input_string):
-        return super().set_content(input_string)
+    def set_input_string(self, input_string):
+        return super().set_input_string(input_string)
     
-    def compute_value(self):
-        # STILL NOT IMPLEMENTED
-        pass
+    def get_components(self):
+        return self.components
+    
+    def set_components(self,components_:List[Component]):
+        self.components = components_
 
-    def set_value(self, value):
-        self.value = value
+    def set_value(self, value_:FloatValue):
+        self.value = value_
 
     def get_value(self):
         return self.value
 
+    def compute_value(self):
+        # STILL NOT IMPLEMENTED
+        pass
+
     def get_for_print(self):
-        return f'{self.get_content()} = {self.value}'
+        return f'{self.get_input_string()} = {self.value.get_as_string()}'

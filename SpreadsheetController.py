@@ -1,4 +1,5 @@
 #from UI import UI
+from typing import Coroutine
 from Tokenizer import Tokenizer
 from FormulaFactory import FormulaFactory
 from FormulaProcessor import FormulaProcessor
@@ -8,7 +9,8 @@ from Content import Content, Formula, Numerical, Text
 from Coordinate import Coordinate
 from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.content_exception import ContentException
 from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.bad_coordinate_exception import BadCoordinateException
-from utils import column_number_to_letter, column_letter_to_number
+import utils as utils
+from Exceptions import *
 
 class SpreadsheetController:
     def __init__(self):
@@ -18,7 +20,6 @@ class SpreadsheetController:
         #NOt sure about the Factories yet
         #self.numericalFact = NumericalFactory()
         #self.textFactory = TextFactory()
-        #self.formulaFactory = FormulaFactory()
         #self.factory = None 
         self.formula_factory = FormulaFactory()
         self.formula_processor = self.formula_factory.get_formula_processor()
@@ -62,13 +63,18 @@ class SpreadsheetController:
 
     def check_coordinate(self, coord:str):
         coordinate = Coordinate(coord)
-        if (coordinate.get_row() > self.spreadSheet.get_nrows()) and (column_letter_to_number(coordinate.get_column) > self.spreadSheet.get_ncols()):
+        if (coordinate.get_row() > self.spreadSheet.get_nrows()) and (utils.column_letter_to_number(coordinate.get_column) > self.spreadSheet.get_ncols()):
             raise BadCoordinateException("The coordinate introduced is not valid")
-
         return coordinate
 
-    def edit_cell(self, cell:Cell, content:str):
-        cell.set_content(content)
+    def edit_cell(self, cell_coordinate:str, content:str):
+        try:
+            coord = self.check_coordinate(cell_coordinate)
+        except BadCoordinateException as e:
+            print(e)
+            return
+
+        #cell.set_content(content)
         #faltaria fer un compute value, mirar dependencies ...
 
     def load_spreadsheet_from_file(self, path:str):
@@ -91,7 +97,9 @@ class SpreadsheetController:
                 for idcol in range(1, ncols+1):
                     cell_content = content[idcol-1]
                     #print(f'idline = {idline+1} and idcol = {column_number_to_letter(idcol+1)}')
-                    coordinate = Coordinate(f'{column_number_to_letter(idcol)}{idline+1}')
+                    coordinate = Coordinate(
+                        f'{utils.column_number_to_letter(idcol)}{idline+1}'
+                    )
                     specific_cell = spreadsheet.get_cell(coordinate)
                     self.edit_cell(specific_cell, cell_content)
                     #spreadsheet.get_cells().at[idline+1, column_number_to_letter(idcol+1)] = cell
@@ -112,7 +120,7 @@ class SpreadsheetController:
                 #print(f'i = {i} and j = {j}')
                 if (content_of_cell == '') or (str(content_of_cell) == 'nan'):
                     txt = f'{txt};'
-                elif (column_letter_to_number(j) == cols):
+                elif (utils.column_letter_to_number(j) == cols):
                     txt = f'{txt}{content_of_cell}'
                 else:
                     txt = f'{txt}{content_of_cell};'
@@ -127,4 +135,9 @@ class SpreadsheetController:
 
     def read_command_from_file(self):
         print('reading command from file')
-        
+
+def main():
+    pass
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,7 @@
 from Argument import Argument
+from Component import Operand
 
-class Number(Argument):
+class Number(Argument,Operand):
 
     def __init__(self, number:float) -> None: 
         self.number_value = number

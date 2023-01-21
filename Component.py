@@ -35,7 +35,6 @@ class OperatorEnum(Enum):
 
 
 class Operator(Component):
-    '''+,-'''
     def __init__(self, type_:OperatorEnum, token_:Token) -> None:
         self.type = type_
         self.sequence = token_.get_sequence()
