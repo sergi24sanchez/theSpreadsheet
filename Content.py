@@ -76,7 +76,7 @@ class Numerical(Content):
             val = float(self.input_string)
         return NumberValue(val)
 
-    def set_value(self, value_:float|int):
+    def set_value(self, value_:float or int):
         self.value = NumberValue(value_)
 
     def get_value(self):
@@ -136,7 +136,7 @@ class Formula(Content):
     def set_components(self,components_:List[Component]):
         self.components = components_
 
-    def set_value(self, value_:int|float):
+    def set_value(self, value_:int or float):
         self.value = NumberValue(value_)
 
     def get_value(self):

@@ -2,7 +2,7 @@ from Value import Value
 
 class NumberValue(Value):
 
-    def __init__(self, float_value:int|float):
+    def __init__(self, float_value:int or float):
         self.value = float_value
     
     def get_value(self):

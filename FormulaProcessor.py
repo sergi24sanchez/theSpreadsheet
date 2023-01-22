@@ -53,7 +53,6 @@ class FormulaProcessor:
         calculated_value = self.evaluator.evaluate_expression(formula.get_components())
         return calculated_value
     
-    # ENCARA NO PODEM CRIDAR A SPREADSHEET
     def convert_tokens_into_components(self,postfix_tokens:List[Token],spreadsheet:Spreadsheet)->List[Component]:
         list_of_components = []
         count = 0
@@ -174,14 +173,15 @@ class FormulaProcessor:
             formula_components = changed_content.get_components()
             idependon = []
             for comp in formula_components:
-                if isinstance(comp,Cell):
-                    idependon.append(comp)
-                elif isinstance(comp,Function):
-                    idependon_from_function = self.get_function_idependon(comp)
-                    for c in idependon_from_function:
-                        if c not in idependon:
-                            idependon.append(c)
-        
+                if comp not in idependon:
+                    if isinstance(comp,Cell):
+                        idependon.append(comp)
+                    elif isinstance(comp,Function):
+                        idependon_from_function = self.get_function_idependon(comp)
+                        for c in idependon_from_function:
+                            if c not in idependon:
+                                idependon.append(c)
+            
             changed_cell.set_idependon(cells=idependon)
 
             for cell in idependon:
@@ -198,6 +198,7 @@ class FormulaProcessor:
                 for inner_cell in idependon_inner_function:
                     if inner_cell not in idependon_function:
                         idependon_function.append(inner_cell)
+        return idependon_function
 
         
 
