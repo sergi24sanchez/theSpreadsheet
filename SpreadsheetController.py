@@ -1,5 +1,6 @@
 #from UI import UI
 from typing import Coroutine
+from Function import Function
 from Tokenizer import Tokenizer
 from FormulaFactory import FormulaFactory
 from FormulaProcessor import FormulaProcessor
@@ -80,6 +81,12 @@ class SpreadsheetController:
     def recalculate_dependent_cells(self, dependencies):
         for cell in dependencies:
             formula = cell.get_content()
+            formula_components = formula.get_components()
+            for component in formula_components:
+                if isinstance(component,Function):
+                    self.formula_processor.calculate_value_of_function_of_formula(
+                        function=component,
+                    )
             formula.compute_value(self.formula_processor)
 
     def edit_cell(self, cell_coordinate:str, content:str):

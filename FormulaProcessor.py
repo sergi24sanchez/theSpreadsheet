@@ -53,6 +53,18 @@ class FormulaProcessor:
         calculated_value = self.evaluator.evaluate_expression(formula.get_components())
         return calculated_value
     
+    def calculate_value_of_function_of_formula(self,function:Function):
+
+        function_arguments = function.arguments
+        for argum in function_arguments:
+            if isinstance(argum,Function):
+                self.calculate_value_of_function_of_formula(
+                    function=argum,
+                )
+        function.set_argument_value(
+            value = function.compute_value(),
+        )
+
     def convert_tokens_into_components(self,postfix_tokens:List[Token],spreadsheet:Spreadsheet)->List[Component]:
         list_of_components = []
         count = 0
