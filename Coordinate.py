@@ -16,7 +16,7 @@ class Coordinate:
         except IndexError:
             raise BadCoordinateException('A row number is missing!')
         
-    def get_coordinate(self):
+    def get_as_string(self):
         return f'{self.column}{self.row}'
     
     def get_row(self):

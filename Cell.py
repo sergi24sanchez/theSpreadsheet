@@ -8,7 +8,7 @@ class Cell(Argument,Operand):
 
     def __init__(self, coordinate_:Coordinate):
         self.coordinate = coordinate_
-        self.content = Content(input_string='')
+        self.content = ''
         self.dependsonme = []
         self.idependon = []
     
@@ -45,8 +45,8 @@ class Cell(Argument,Operand):
         #cells: list of cells or a Cell that will be given
         self.idependon = cells
 
-    def add_dependsonme(self, coordinate:Coordinate):
-        self.dependsonme.append(coordinate)
+    def add_dependsonme(self,cell):
+        self.dependsonme.append(cell)
 
     def set_argument_value(self):
         pass

@@ -31,10 +31,6 @@ class Content(ABC):
     
     def set_input_string(self,input_string:str):
         self.input_string = input_string
-    
-    @abstractmethod
-    def compute_value(self):
-        pass
 
     @abstractmethod
     def set_value(self, value_):
@@ -94,7 +90,7 @@ class Text(Content):
     
     def compute_value(self):
         self.value = StringValue(self.input_string)
-
+    
     def set_value(self, value_:str):
         self.value = StringValue(value_)
 
@@ -112,7 +108,7 @@ class Formula(Content):
         self.content_type = ContentEnum.FORMULA
         self.components = None
         self.value = None
-    
+
     def get_input_string(self):
         return super().get_input_string()
     

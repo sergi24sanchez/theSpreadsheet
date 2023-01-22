@@ -42,13 +42,15 @@ class FormulaProcessor:
             postfix_tokens=postfix_expression_as_tokens,
             spreadsheet=spreadsheet,
         )
-        calculated_value = self.evaluator.evaluate_expression(postfix_expression_as_components)
 
         formula = Formula(input_string=input_string)
         formula.set_components(postfix_expression_as_components)
-        formula.compute_value(value_=calculated_value)
 
         return formula
+    
+    def compute_value_of_formula(self,formula:Formula):
+        calculated_value = self.evaluator.evaluate_expression(formula.get_components())
+        formula.set_value(value_=calculated_value)
     
     # ENCARA NO PODEM CRIDAR A SPREADSHEET
     def convert_tokens_into_components(self,postfix_tokens:List[Token],spreadsheet:Spreadsheet)->List[Component]:
@@ -164,13 +166,39 @@ class FormulaProcessor:
         
         return func
 
-    def recalculate_formula_value(self,formula:Formula)->None:
-        '''
-        This function just has to recalculate the value of 
-        the formula from the formula's components'''
+    def refresh_depending_cells(self,changed_cell:Cell)->None:
 
-        calculated_value = self.evaluator.evaluate_expression(formula.get_components())
-        formula.set_value(value_=NumberValue(float_value=calculated_value))
+        changed_content = changed_cell.get_content()
+        if isinstance(changed_cell,Formula):
+            formula_components = changed_content.get_components()
+            idependon = []
+            for comp in formula_components:
+                if isinstance(comp,Cell):
+                    idependon.append(comp)
+                elif isinstance(comp,Function):
+                    idependon_from_function = self.get_function_idependon(comp)
+                    for c in idependon_from_function:
+                        if c not in idependon:
+                            idependon.append(c)
+        
+            changed_cell.set_idependon(cells=idependon)
+
+            for cell in idependon:
+                cell.add_dependsonme(changed_cell)
+
+    def get_function_idependon(self,function:Function)->List[Cell]:
+        arguments = function.arguments
+        idependon_function = []
+        for cell in arguments:
+            if isinstance(cell,Cell):
+                idependon_function.append(cell)
+            elif isinstance(cell,Function):
+                idependon_inner_function = self.get_function_idependon(cell)
+                for inner_cell in idependon_inner_function:
+                    if inner_cell not in idependon_function:
+                        idependon_function.append(inner_cell)
+
+        
 
 def main():
     

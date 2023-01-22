@@ -16,16 +16,18 @@ class SpreadsheetChecker(ISpreadsheetControllerForChecker):
 
     def set_cell_content(self, coord, str_content):
         try:
-            coordinate = self.controller.check_coordinate(coord)
-            cell_to_modify = self.controller.get_spreadsheet().get_cell(coordinate)
-            #TO DO: Create an object depending of the type of content and give it to the cell.setcontent()
-            cell_to_modify.set_content(str_content)
+            self.controller.edit_cell(
+                cell_coordinate=coord,
+                content=str_content,
+            )
         except BadCoordinateException as e:
             print(e)
         except ContentException as e:
             print(e)
         except CircularDependencyException as e:
             print(e)
+        
+        return 
 
     def get_cell_content_as_float(self, coord):
         try:

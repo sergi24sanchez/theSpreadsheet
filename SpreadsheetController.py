@@ -7,10 +7,13 @@ from Spreadsheet import Spreadsheet
 from Cell import Cell
 from Content import Content, Formula, Numerical, Text, ContentEnum
 from Coordinate import Coordinate
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.circular_dependency_exception import CircularDependencyException
 from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.content_exception import ContentException
 from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.bad_coordinate_exception import BadCoordinateException
 import utils as utils
 from Exceptions import *
+
+from typing import List
 
 class SpreadsheetController:
     def __init__(self):
@@ -48,32 +51,34 @@ class SpreadsheetController:
             raise BadCoordinateException("The coordinate introduced is not valid")
         return coordinate
 
-    def get_all_dependent_cells(self, cell:Cell):
+    def get_all_dependent_cells(self, cell:Cell)->List[Cell]:
         dependsonme = cell.get_dependsonme()
         dependencies=[]
-        for coord in dependsonme:
-            dependencies.append()
-            new_dependency = self.spreadSheet.get_cell(coord).get_dependsonme()
-            dependencies.append()
-            for coord_2 in new_dependency:
-                dependencies.append(self.spreadSheet.get_cell(coord_2).get_dependsonme())
-        
+        for dependant_cell in dependsonme:
+            if dependant_cell not in dependencies:
+                if dependant_cell == cell:
+                    raise CircularDependencyException(f'Cell {cell.coordinate.get_as_string} generates a circular dependency')
+                dependencies.append(dependant_cell)
+            
+                inner_dependsonme = self.get_all_dependent_cells(cell=dependant_cell)
+                for depend in inner_dependsonme:
+                    if depend not in dependencies:
+                        if depend == dependant_cell or depend == cell:
+                            raise CircularDependencyException(f'Cell {dependant_cell.coordinate.get_as_string} generates a circular dependency')
+                        dependencies.append(depend)
+
         return dependencies
             
-    def recalculate_dependent_cells(self, dependencies):
-        for coord in dependencies:
-            cell_to_modify = self.spreadSheet.get_cell(coord)
-            #TO DO: arreglar aixo
-            self.edit_cell()
-
-
     def search_cirucular_dependencies(self, cell:Cell):
         #when searching for circular dependencies, raise an exception if circular dependencies == true
-        circular_dependencies = True
         for item in cell.get_dependsonme():
-            if item not in cell.get_idependon():
-                circular_dependencies = False
-        return circular_dependencies
+            if item in cell.get_idependon():
+                raise CircularDependencyException('Circular depencendies!')
+    
+    def recalculate_dependent_cells(self, dependencies):
+        for cell in dependencies:
+            content = cell.get_content()
+            self.formula_processor.compute_value_of_formula(content)
 
 
     def edit_cell(self, cell_coordinate:str, content:str):
@@ -84,16 +89,18 @@ class SpreadsheetController:
             return
         cell_obj = self.spreadSheet.get_cell(coordinate=coord)
         
-        try:
-            input_type = utils.check_string(content)
-            new_content = self.create_content_by_type(input_type,content)
-            cell_obj.set_content(content_=new_content)
-        except ContentException as e:
-            print(e)
-            return
+        input_type = utils.check_string(content)
 
-        #faltaria fer un compute value, mirar dependencies ...
+        new_content = self.create_content_by_type(input_type,content)
+        cell_obj.set_content(content_=new_content)
 
+        self.formula_processor.refresh_depending_cells(
+            changed_cell=cell_obj,
+        )
+        # ACTUALLY REFRESH THE VALUES
+        self.search_cirucular_dependencies(cell_obj)
+        depend_on_this_cell = self.get_all_dependent_cells(cell=cell_obj)
+        self.recalculate_dependent_cells(depend_on_this_cell)
     
         
     def save_spreadsheet_to_file(self, path:str):
@@ -139,19 +146,22 @@ class SpreadsheetController:
             for idline, line in enumerate(lines): #iterates through rows
                 #print(f'awa4')
                 row_no_n = line.split('\n')[0]
-                content = row_no_n.split(';')
+                all_contents_row = row_no_n.split(';')
                 #print(content)
                 #print(f'len content : {len(content)}')
                 #for idcol, cell in enumerate(content): # iterates through cols
                 for idcol in range(1, ncols+1):
-                    cell_content = content[idcol-1]
+                    cell_content = all_contents_row[idcol-1]
                     #print(f'idline = {idline+1} and idcol = {column_number_to_letter(idcol+1)}')
                     coordinate = Coordinate(
                         f'{utils.column_number_to_letter(idcol)}{idline+1}'
                     )
                     specific_cell = spreadsheet.get_cell(coordinate)
-                    #TO DO: Modificar edit cell pq sea el de arriba
-                    self.edit_cell(specific_cell, cell_content)
+                    #TODO: Modificar edit cell pq sea el de arriba
+                    self.edit_cell(
+                        cell_coordinate=specific_cell.get_coordinate().get_as_string(),
+                        content=cell_content,
+                    )
                     #print('awa5')
                     #spreadsheet.get_cells().at[idline+1, column_number_to_letter(idcol+1)] = cell
             #print(spreadsheet.get_cells())
