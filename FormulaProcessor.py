@@ -32,7 +32,8 @@ class FormulaProcessor:
 
     def create_formula(self, input_string:str, spreadsheet:Spreadsheet)-> Formula:
         # Generate token sequence from input string
-        token_sequence = self.tokenizer.tokenize(input_string)
+        without_equal_char = input_string.split("=")[1]
+        token_sequence = self.tokenizer.tokenize(without_equal_char)
         # Check formula syntax
         self.parser.parse(token_sequence)
         # Generate Postfix expression as tokens
@@ -169,7 +170,7 @@ class FormulaProcessor:
     def refresh_depending_cells(self,changed_cell:Cell)->None:
 
         changed_content = changed_cell.get_content()
-        if isinstance(changed_cell,Formula):
+        if isinstance(changed_content,Formula):
             formula_components = changed_content.get_components()
             idependon = []
             for comp in formula_components:

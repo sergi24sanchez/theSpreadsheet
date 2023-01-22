@@ -36,9 +36,9 @@ class SpreadsheetController:
 
     def create_content_by_type(self, type:str, content:str):
         if type == ContentEnum.FORMULA:
-            formula_string = content.split("=")[1]
+            
             return self.formula_processor.create_formula(
-                input_string=formula_string,
+                input_string=content,
                 spreadsheet=self.spreadSheet,
             )
         elif type == ContentEnum.TEXT:
@@ -80,9 +80,8 @@ class SpreadsheetController:
     
     def recalculate_dependent_cells(self, dependencies):
         for cell in dependencies:
-            content = cell.get_content()
-            self.formula_processor.compute_value_of_formula(content)
-
+            formula = cell.get_content()
+            formula.compute_value(self.formula_processor)
 
     def edit_cell(self, cell_coordinate:str, content:str):
         try:
@@ -91,7 +90,7 @@ class SpreadsheetController:
             print(e)
             return
         cell_obj = self.spreadSheet.get_cell(coordinate=coord)
-        
+
         input_type = utils.check_string(content)
 
         new_content = self.create_content_by_type(input_type,content)
@@ -103,14 +102,52 @@ class SpreadsheetController:
         # ACTUALLY REFRESH THE VALUES
         self.search_cirucular_dependencies(cell_obj)
         depend_on_this_cell = self.get_all_dependent_cells(cell=cell_obj)
-        #calculate dependsonme new value
-        self.recalculate_dependent_cells(depend_on_this_cell)
         # calculate actual cell
         if isinstance(cell_obj.get_content(),Formula):
             cell_obj.get_content().compute_value(self.formula_processor)
         else:
             cell_obj.get_content().compute_value()
-            
+        #calculate dependsonme new value
+        self.recalculate_dependent_cells(depend_on_this_cell)
+
+    def load_cell(self, cell_coordinate:str,content:str):
+        try:
+            coord = self.check_coordinate(cell_coordinate)
+        except BadCoordinateException as e:
+            print(e)
+            return
+        cell_obj = self.spreadSheet.get_cell(coordinate=coord)
+
+        input_type = utils.check_string(content)
+
+        new_content = self.create_content_by_type(input_type,content)
+        cell_obj.set_content(content_=new_content)
+
+        self.formula_processor.refresh_depending_cells(
+            changed_cell=cell_obj,
+        )
+        # # ACTUALLY REFRESH THE VALUES
+        # self.search_cirucular_dependencies(cell_obj)
+        # depend_on_this_cell = self.get_all_dependent_cells(cell=cell_obj)
+        # # calculate actual cell
+        # if isinstance(cell_obj.get_content(),Formula):
+        #     cell_obj.get_content().compute_value(self.formula_processor)
+        # else:
+        #     cell_obj.get_content().compute_value()
+        # #calculate dependsonme new value
+        # self.recalculate_dependent_cells(depend_on_this_cell)
+    
+    def compute_value_of_loaded_cells(self,spreadsheet:Spreadsheet):
+        df = spreadsheet.get_cells()
+
+        for i, row in df.iterrows():
+            for j, cell in row.items():
+                content_of_cell = cell.get_content()
+                if isinstance(content_of_cell,Formula):
+                    content_of_cell.compute_value(
+                        formula_processor=self.formula_processor
+                    )
+
     def save_spreadsheet_to_file(self, path:str):
         #self.files_manager.save_spreadsheet(path, self.spreadSheet)
         df = self.spreadSheet.get_cells()
@@ -121,12 +158,14 @@ class SpreadsheetController:
             for j, cell in row.items():
                 content_of_cell = cell.get_content()
                 #print(f'i = {i} and j = {j}')
-                if (content_of_cell == '') or (str(content_of_cell) == 'nan'):
+                if ((content_of_cell == '')
+                or (str(content_of_cell) == 'nan')
+                or (content_of_cell is None)):
                     txt = f'{txt};'
                 elif (utils.column_letter_to_number(j) == cols):
-                    txt = f'{txt}{content_of_cell}'
+                    txt = f'{txt}{content_of_cell.get_as_string()}'
                 else:
-                    txt = f'{txt}{content_of_cell};'
+                    txt = f'{txt}{content_of_cell.get_as_string()};'
             if i != rows:
                 txt = f'{txt}\n'
         
@@ -138,61 +177,31 @@ class SpreadsheetController:
     def load_spreadsheet_from_file(self, path:str):
         #self.files_manager.load_spreadsheet(path)
         with open(path, 'r') as file:
-            #print('awa1')
             lines = file.readlines()
             nrows = len(lines)
             ncols = []
             for line in lines:
-                #print(f'awa2 {line}')
                 row_no_n = line.split('\n')[0]
-                #print(col_no_n)
                 ncols.append(len(row_no_n.split(';')))
             ncols = max(ncols)
-            #print('awa3')
-            #print(f'cols ={ncols} rows = {nrows}')
             spreadsheet = Spreadsheet(num_rows = nrows, num_cols = ncols)
             for idline, line in enumerate(lines): #iterates through rows
-                #print(f'awa4')
                 row_no_n = line.split('\n')[0]
                 all_contents_row = row_no_n.split(';')
-                #print(content)
-                #print(f'len content : {len(content)}')
-                #for idcol, cell in enumerate(content): # iterates through cols
                 for idcol in range(1, ncols+1):
                     cell_content = all_contents_row[idcol-1]
-                    #print(f'idline = {idline+1} and idcol = {column_number_to_letter(idcol+1)}')
                     coordinate = Coordinate(
                         f'{utils.column_number_to_letter(idcol)}{idline+1}'
                     )
                     specific_cell = spreadsheet.get_cell(coordinate)
-                    #TODO: Modificar edit cell pq sea el de arriba
-                    self.edit_cell(
-                        cell_coordinate=specific_cell.get_coordinate().get_as_string(),
+                    self.load_cell(
+                        cell_coordinate=specific_cell.get_coordinate(),
                         content=cell_content,
                     )
-                    #print('awa5')
-                    #spreadsheet.get_cells().at[idline+1, column_number_to_letter(idcol+1)] = cell
-            #print(spreadsheet.get_cells())
-            #print('loading from file')
+                self.compute_value_of_loaded_cells(
+                    spreadsheet=self.spreadSheet,
+                )
             self.spreadSheet = spreadsheet
-        #return spreadsheet.get_cells()
-        
 
     def read_command_from_file(self):
         print('reading command from file')
-
-def main():
-    controller = SpreadsheetController()
-    controller.create_spreadsheet(
-        nrows=20,
-        ncols=20,
-    )
-    coord = input("COORDINATE: ")
-    cont = input("CONTENT: ")
-    controller.edit_cell(
-        cell_coordinate=coord,
-        content=cont,
-    )
-
-if __name__ == "__main__":
-    main()

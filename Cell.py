@@ -57,4 +57,5 @@ class Cell(Argument,Operand):
     
     def get_operand_value(self):
         '''It gets the content's Value object's value'''
+        
         return self.content.get_value().get_value()

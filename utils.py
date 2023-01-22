@@ -44,11 +44,12 @@ def check_string(string:str):
     :return: "equal sign", "number", "text" or "other" depending on the input
     :rtype: str
     """
-    if string[0] == "=":
-        return ContentEnum.FORMULA
-    elif string.isdigit():
-        return ContentEnum.NUMERICAL
-    elif string.isalpha():
-        return ContentEnum.TEXT
+    if string !='':
+        if string[0] == "=":
+            return ContentEnum.FORMULA
+        elif string.isdigit():
+            return ContentEnum.NUMERICAL
+        elif string.isalpha():
+            return ContentEnum.TEXT
     else:
-        return "other"
+        return ContentEnum.TEXT

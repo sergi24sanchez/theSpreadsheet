@@ -24,7 +24,10 @@ class ContentEnum(Enum):
 class Content(ABC):
 
     def __init__(self, input_string:str):
-        self.input_string = input_string
+        if input_string is None:
+            self.input_string = ''
+        else:
+            self.input_string = input_string
         self.content_type = ContentEnum.NO_TYPE
     
     def get_input_string(self):
@@ -48,6 +51,9 @@ class Content(ABC):
     @abstractmethod
     def get_for_print(self):
         pass
+
+    def get_as_string(self):
+        return self.input_string
 
 
 class Numerical(Content):
@@ -79,6 +85,8 @@ class Numerical(Content):
     def get_for_print(self):
         return f'{self.value.get_as_string()}'
     
+    def get_as_string(self):
+        return super().get_as_string()
 
 class Text(Content):
 
@@ -105,6 +113,8 @@ class Text(Content):
     def get_for_print(self):
         return f'{self.value.get_as_string()}'
 
+    def get_as_string(self):
+        return super().get_as_string()
 
 class Formula(Content):
 
@@ -137,4 +147,7 @@ class Formula(Content):
         self.set_value(value_=value)
 
     def get_for_print(self):
-        return f'{self.get_input_string()} = {self.value.get_as_string()}'
+        return f'{self.get_input_string().split("=")[1]} = {self.value.get_as_string()}'
+
+    def get_as_string(self):
+        return super().get_as_string()
