@@ -31,8 +31,6 @@ class SpreadsheetChecker(ISpreadsheetControllerForChecker):
             print(e)
         except ContentException as e:
             print(e)
-        except CircularDependencyException as e:
-            print(e)
         
         return 
 
@@ -40,6 +38,9 @@ class SpreadsheetChecker(ISpreadsheetControllerForChecker):
         try:
             coordinate = self.controller.check_coordinate(coord)
             cell = self.controller.spreadSheet.get_cell(coordinate)
+            self.controller.search_cirucular_dependencies(
+                cell=cell,
+            )
             return cell.get_content().get_value().get_as_float()
         except BadCoordinateException as e:
             print(e)

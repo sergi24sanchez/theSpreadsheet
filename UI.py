@@ -55,6 +55,8 @@ class UI():
                 print(e)
             except ValueError as e:
                 print(e)
+            except CircularDependencyException as e:
+                print(e)
 
 # ui = UI()
 # controller = ui.get_SpreadsheetController()

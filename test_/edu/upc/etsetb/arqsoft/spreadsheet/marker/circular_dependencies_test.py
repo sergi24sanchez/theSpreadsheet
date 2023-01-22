@@ -9,9 +9,9 @@ from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.circular_dependency_excepti
 
 class CircularDependenciesTest(SuperClassForTests):
 
-    numErrorsBefore = 0;
+    numErrorsBefore = 0
 
-    numInstances = 0;
+    numInstances = 0
 
     nota = 0.0
 
@@ -31,11 +31,11 @@ class CircularDependenciesTest(SuperClassForTests):
             self.instance.set_cell_content("A12", "7")
             self.instance.set_cell_content("A13", "8")
             self.instance.set_cell_content("A14", "9")
-            self.instance.set_cell_content("A1", "=A2+A3+A4+A5")
-            self.instance.set_cell_content("A2", "=A6+A7+A8")
             self.instance.set_cell_content("A3", "=A9+A10+A11")
-            self.instance.set_cell_content("A4", "=A12+A13")
+            self.instance.set_cell_content("A2", "=A6+A7+A8")
             self.instance.set_cell_content("A5", "=A14+1")
+            self.instance.set_cell_content("A4", "=A12+A13")
+            self.instance.set_cell_content("A1", "=A2+A3+A4+A5")
         except Exception as err:
             print("An error has occurred while trying to set either "
                   + "a numerical or a formula content in one cell. You should "
