@@ -6,7 +6,7 @@ from Exceptions import InputError
 
 class Spreadsheet:
 
-    def __init__(self, num_rows, num_cols):
+    def __init__(self, num_rows=25, num_cols=25):
         self.numcols = int(num_cols)
         self.numrows = int(num_rows)
 

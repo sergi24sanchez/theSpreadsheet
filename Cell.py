@@ -8,7 +8,7 @@ class Cell(Argument,Operand):
 
     def __init__(self, coordinate_:Coordinate):
         self.coordinate = coordinate_
-        self.content = ''
+        self.content = Content(input_string='')
         self.dependsonme = []
         self.idependon = []
     
@@ -35,8 +35,8 @@ class Cell(Argument,Operand):
     def get_for_print(self):
         self.content.get_for_print()
 
-    def set_content(self, content:Content):
-        self.content = content
+    def set_content(self, content_:Content):
+        self.content = content_
 
     def set_coordinate(self,coordinate:Coordinate):
         self.coordinate = coordinate
