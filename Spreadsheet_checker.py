@@ -15,10 +15,17 @@ class SpreadsheetChecker(ISpreadsheetControllerForChecker):
         self.controller = SpreadsheetController()
 
     def set_cell_content(self, coord, str_content):
+        '''
+        We assumed from the beggining that the inputs were given 
+        by the user using the UI. That is why all contents are assumed 
+        as strings. The code of edit_cell requires the content to be an string. 
+        In case that the input is a number it will be converted later on in the 
+        code to the class NumberValue. 
+        '''
         try:
             self.controller.edit_cell(
                 cell_coordinate=coord,
-                content=str_content,
+                content=str(str_content),
             )
         except BadCoordinateException as e:
             print(e)

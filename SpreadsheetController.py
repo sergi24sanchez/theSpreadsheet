@@ -36,7 +36,6 @@ class SpreadsheetController:
 
     def create_content_by_type(self, type:str, content:str):
         if type == ContentEnum.FORMULA:
-            
             return self.formula_processor.create_formula(
                 input_string=content,
                 spreadsheet=self.spreadSheet,
