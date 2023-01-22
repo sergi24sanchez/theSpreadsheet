@@ -56,17 +56,13 @@ class SpreadsheetController:
             return
         cell_obj = self.spreadSheet.get_cell(coordinate=coord)
         
-        type = utils.check_string(content)
         try:
-            content_obj = self.create_content_by_type(
-                type = type,
-                content=content,
-            )
+            input_type = utils.check_string(content)
+            new_content = self.create_content_by_type(input_type,content)
+            cell_obj.set_content(content_=new_content)
         except ContentException as e:
             print(e)
             return
-        
-        cell_obj.set_content(content_=content_obj)
 
         #faltaria fer un compute value, mirar dependencies ...
 

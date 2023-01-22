@@ -15,6 +15,7 @@ from Value import Value
 from Component import Component
 
 class ContentEnum(Enum):
+    NO_TYPE = 0
     FORMULA = 1
     NUMERICAL = 2
     TEXT = 3
@@ -23,11 +24,12 @@ class Content(ABC):
 
     def __init__(self, input_string:str):
         self.input_string = input_string
+        self.content_type = ContentEnum.NO_TYPE
     
     def get_input_string(self):
         return self.input_string
     
-    def set_input_string(self,input_string):
+    def set_input_string(self,input_string:str):
         self.input_string = input_string
     
     @abstractmethod
@@ -35,7 +37,7 @@ class Content(ABC):
         pass
 
     @abstractmethod
-    def set_value(self, value):
+    def set_value(self, value_):
         pass
 
     @abstractmethod
@@ -57,7 +59,7 @@ class Numerical(Content):
     def get_input_string(self):
         return super().get_input_string()
     
-    def set_input_string(self, input_string):
+    def set_input_string(self, input_string:str):
         return super().set_input_string(input_string)
     
     def compute_value(self):
@@ -65,7 +67,7 @@ class Numerical(Content):
             val = int(self.input_string)
         except ValueError:
             val = float(self.input_string)
-        return val
+        return NumberValue(val)
 
     def set_value(self, value_:float|int):
         self.value = NumberValue(value_)
@@ -87,7 +89,7 @@ class Text(Content):
     def get_input_string(self):
         return super().get_input_string()
 
-    def set_input_string(self, input_string):
+    def set_input_string(self, input_string:str):
         return super().set_input_string(input_string)
     
     def compute_value(self):
@@ -114,7 +116,7 @@ class Formula(Content):
     def get_input_string(self):
         return super().get_input_string()
     
-    def set_input_string(self, input_string):
+    def set_input_string(self, input_string:str):
         return super().set_input_string(input_string)
     
     def get_components(self):
