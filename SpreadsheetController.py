@@ -67,6 +67,34 @@ class SpreadsheetController:
             raise BadCoordinateException("The coordinate introduced is not valid")
         return coordinate
 
+    def get_all_dependent_cells(self, cell:Cell):
+        dependsonme = cell.get_dependsonme()
+        dependencies=[]
+        for coord in dependsonme:
+            dependencies.append()
+            new_dependency = self.spreadSheet.get_cell(coord).get_dependsonme()
+            dependencies.append()
+            for coord_2 in new_dependency:
+                dependencies.append(self.spreadSheet.get_cell(coord_2).get_dependsonme())
+        
+        return dependencies
+            
+    def recalculate_dependent_cells(self, dependencies):
+        for coord in dependencies:
+            cell_to_modify = self.spreadSheet.get_cell(coord)
+            #TO DO: arreglar aixo
+            self.edit_cell()
+
+
+    def search_cirucular_dependencies(self, cell:Cell):
+        #when searching for circular dependencies, raise an exception if circular dependencies == true
+        circular_dependencies = True
+        for item in cell.get_dependsonme():
+            if item not in cell.get_idependon():
+                circular_dependencies = False
+        return circular_dependencies
+
+
     def edit_cell(self, cell_coordinate:str, content:str):
         try:
             coord = self.check_coordinate(cell_coordinate)
