@@ -26,13 +26,14 @@ class Range(Argument):
         return self.final_cell
 
     def get_all_cells(self,spreadsheet:Spreadsheet) -> List[Cell]:
-        # NEEDS TO ACCESS THE SPREADSHEET
-        
+
         all_cells = []
-        initial_row = int([*self.initial_cell][1])
-        initial_col = int(utils.column_letter_to_number([*self.initial_cell][0]))
-        final_row = int([*self.final_cell][1])
-        final_col = int(utils.column_letter_to_number([*self.final_cell][0]))
+        initial_coord = Coordinate(self.initial_cell)
+        initial_row = int(initial_coord.get_row())
+        initial_col = int(utils.column_letter_to_number(initial_coord.get_column()))
+        final_coord = Coordinate(self.final_cell)
+        final_row = int(final_coord.get_row())
+        final_col = int(utils.column_letter_to_number(final_coord.get_column()))
         for col in range(initial_col, final_col+1):
             col_letter = utils.column_number_to_letter(col)
             for row in range(initial_row, final_row+1):

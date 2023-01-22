@@ -69,6 +69,10 @@ class TestRunner:
             obMethod()
             TestRunner.notas[c.__name__]=getattr(c,"nota")
  
-runner = TestRunner()
-runner.runTestSuite()
-runner.show_grades()
+def main():
+    runner = TestRunner()
+    runner.runTestSuite()
+    runner.show_grades()
+
+if __name__ == '__main__':
+    main()
