@@ -46,7 +46,7 @@ class FormulaProcessor:
 
         formula = Formula(input_string=input_string)
         formula.set_components(postfix_expression_as_components)
-        formula.set_value(value_=FloatValue(float_value=calculated_value))
+        formula.set_value(value_ = calculated_value)
 
         return formula
     

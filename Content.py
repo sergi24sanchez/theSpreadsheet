@@ -9,6 +9,7 @@ from typing import List
 
 from FloatValue import FloatValue
 from StringValue import StringValue
+from Value import Value
 
 from Component import Component
 
@@ -55,8 +56,8 @@ class Numerical(Content):
     def compute_value(self):
         self.number_value = int(self.input_string)  # Is it OK?
 
-    def set_value(self, value):
-        self.value = value
+    def set_value(self, value_):
+        self.value = FloatValue(value_)
 
     def get_value(self):
         return self.value
@@ -82,8 +83,8 @@ class Text(Content):
     def compute_value(self):
         self.string_value = self.input_string
 
-    def set_value(self, value:StringValue):
-        self.value = value
+    def set_value(self, value_:str):
+        self.value = StringValue(value_)
 
     def get_value(self):
         return self.value
@@ -113,8 +114,8 @@ class Formula(Content):
     def set_components(self,components_:List[Component]):
         self.components = components_
 
-    def set_value(self, value_:FloatValue):
-        self.value = value_
+    def set_value(self, value_:float):
+        self.value = FloatValue(value_)
 
     def get_value(self):
         return self.value

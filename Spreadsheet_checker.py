@@ -18,6 +18,7 @@ class SpreadsheetChecker(ISpreadsheetControllerForChecker):
         try:
             coordinate = self.controller.check_coordinate(coord)
             cell_to_modify = self.controller.get_spreadsheet().get_cell(coordinate)
+            #TO DO: Create an object depending of the type of content and give it to the cell.setcontent()
             cell_to_modify.set_content(str_content)
         except BadCoordinateException as e:
             print(e)

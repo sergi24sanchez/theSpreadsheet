@@ -6,7 +6,6 @@ from Exceptions import BadCoordinateException
 class Coordinate():
 
     def __init__(self, coordinates:str):
-        
         try:
             self.row = int(re.findall(r'\d+', coordinates)[0])
         except IndexError:
