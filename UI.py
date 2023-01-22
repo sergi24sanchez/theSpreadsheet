@@ -1,5 +1,5 @@
 from SpreadsheetController import SpreadsheetController
-from Exceptions import BadCoordinateException, ContentException, InputError
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.bad_coordinate_exception import BadCoordinateException
 
 class UI():
     def __init__(self):
@@ -29,7 +29,12 @@ class UI():
                     ncols = input()
                     controller.create_spreadsheet(nrows, ncols)
                 elif command == "e":
-                    controller.edit_cell()
+                    cell_cordinate = input('Write the cell you want to edit: ')
+                    cell_content = input('Write the content for the cell: ')
+                    controller.edit_cell(
+                        cell_coordinate=cell_cordinate,
+                        content=cell_content,
+                    )
                 elif command == "l":
                     print('Introduce the path of the file you want to load. Include the name and also the extension .txt')
                     path_load = input()
@@ -56,6 +61,6 @@ class UI():
 # controller.load_spreadsheet_from_file('awa.txt')
 # controller.save_spreadsheet_to_file('awa2.txt')
 # #print(spread)
-
+controller = SpreadsheetController()
 ui = UI()
-ui.start_session()
+ui.start_session(controller)

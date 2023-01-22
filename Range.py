@@ -1,4 +1,9 @@
+from typing import List
+
 from Argument import Argument
+from Cell import Cell
+from Coordinate import Coordinate
+from Spreadsheet import Spreadsheet
 import utils
 
 class Range(Argument):
@@ -20,17 +25,21 @@ class Range(Argument):
     def get_final_cell(self):
         return self.final_cell
 
-    def get_all_cells(self) -> list:
+    def get_all_cells(self,spreadsheet:Spreadsheet) -> List[Cell]:
+        # NEEDS TO ACCESS THE SPREADSHEET
         
         all_cells = []
-        initial_row = [*self.initial_cell][1]
-        initial_col = utils.column_letter_to_number([*self.initial_cell][0])
-        final_row = [*self.final_cell][1]
-        final_col = utils.column_letter_to_number([*self.final_cell][0])
-        for col in range(int(initial_col), int(final_col)+1):
+        initial_row = int([*self.initial_cell][1])
+        initial_col = int(utils.column_letter_to_number([*self.initial_cell][0]))
+        final_row = int([*self.final_cell][1])
+        final_col = int(utils.column_letter_to_number([*self.final_cell][0]))
+        for col in range(initial_col, final_col+1):
             col_letter = utils.column_number_to_letter(col)
-            for row in range(int(initial_row), int(final_row)+1):
-                all_cells.append(f'{col_letter}{row}')        
+            for row in range(initial_row, final_row+1):
+                coord = Coordinate(f'{col_letter}{row}')
+                cell = spreadsheet.get_cell(coord)
+                all_cells.append(cell)
+                # all_cells.append(f'{col_letter}{row}')        
         return all_cells
 
     def set_argument_value(self,value):
@@ -38,9 +47,3 @@ class Range(Argument):
 
     def get_argument_value(self):
         return self.range_val
-
-    def get_operand_value(self):
-        return self.range_val
-    
-    def set_operand_value(self,value):
-        self.range_val = value

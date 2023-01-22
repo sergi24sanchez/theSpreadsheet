@@ -29,3 +29,26 @@ def column_number_to_letter(column_number):
         column_number, remainder = divmod(column_number - 1, 26)
         column_letter = chr(65 + remainder) + column_letter
     return column_letter
+
+from Content import ContentEnum
+
+def check_string(string:str):
+    """
+    This function takes a string as input and checks if the first character is "=" and if the entire string is a number or text.
+    If the first character is "=" it returns "equal sign"
+    If the entire string is a number, it returns "number".
+    If the entire string is a letter, it returns "text".
+    if the string is not a number or a text it returns "other"
+    :param string: The input string to check
+    :type string: str
+    :return: "equal sign", "number", "text" or "other" depending on the input
+    :rtype: str
+    """
+    if string[0] == "=":
+        return ContentEnum.FORMULA
+    elif string.isdigit():
+        return ContentEnum.NUMERICAL
+    elif string.isalpha():
+        return ContentEnum.TEXT
+    else:
+        return "other"

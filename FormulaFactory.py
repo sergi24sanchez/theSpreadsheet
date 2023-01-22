@@ -10,7 +10,7 @@ class FormulaFactory:
 
     def get_formula_processor(self):
         tokenizer = Tokenizer()
-        parser = Parser(self.tokenizer.token_infos)
+        parser = Parser(tokenizer.token_infos)
         generator = PostFixGenerator()
         evaluator = PostfixEvaluator()
         formula_processor = FormulaProcessor(tokenizer, parser, generator, evaluator)
