@@ -1,5 +1,8 @@
 from SpreadsheetController import SpreadsheetController
 from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.bad_coordinate_exception import BadCoordinateException
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.content_exception import ContentException
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.circular_dependency_exception import CircularDependencyException
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.no_number_exception import NoNumberException
 
 class UI():
     def __init__(self):
@@ -10,7 +13,7 @@ class UI():
 
     def start_session(self, controller:SpreadsheetController):
         print("Welcome, what action do you want to do?")
-        end = False
+        end = 0
         while not end:
             self.print_menu()
             action = input()
@@ -18,8 +21,8 @@ class UI():
             try:
                 if command == 'f':
                     print('Ending the session...')
-                    end = True
-                    break
+                    end = 1
+                    return end
                 elif command == "rf":
                     controller.read_command_from_file()
                 elif command == "c":
@@ -44,12 +47,11 @@ class UI():
                     path_save = input()
                     controller.save_spreadsheet_to_file(path_save)
                 else:
-                    raise InputError("Invalid input")
+                    raise ValueError("Invalid input")
+                controller.printer.show_all_spreadsheet(controller.spreadSheet)
             except BadCoordinateException as e:
                 print(e)
             except ContentException as e:
-                print(e)
-            except InputError as e:
                 print(e)
             except ValueError as e:
                 print(e)
@@ -61,6 +63,6 @@ class UI():
 # controller.load_spreadsheet_from_file('awa.txt')
 # controller.save_spreadsheet_to_file('awa2.txt')
 # #print(spread)
-controller = SpreadsheetController()
-ui = UI()
-ui.start_session(controller)
+# controller = SpreadsheetController()
+# ui = UI()
+# ui.start_session(controller)

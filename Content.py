@@ -14,6 +14,7 @@ from Value import Value
 
 from Component import Component
 
+
 class ContentEnum(Enum):
     NO_TYPE = 0
     FORMULA = 1
@@ -38,6 +39,10 @@ class Content(ABC):
 
     @abstractmethod
     def get_value(self):
+        pass
+
+    @abstractmethod
+    def compute_value(self):
         pass
 
     @abstractmethod
@@ -72,7 +77,7 @@ class Numerical(Content):
         return self.value
     
     def get_for_print(self):
-        return f'{self.value}'
+        return f'{self.value.get_as_string()}'
     
 
 class Text(Content):
@@ -126,6 +131,10 @@ class Formula(Content):
 
     def get_value(self):
         return self.value
+
+    def compute_value(self,formula_processor):
+        value = formula_processor.compute_value_of_formula(self)
+        self.set_value(value_=value)
 
     def get_for_print(self):
         return f'{self.get_input_string()} = {self.value.get_as_string()}'

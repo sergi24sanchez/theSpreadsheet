@@ -8,7 +8,7 @@ class Cell(Argument,Operand):
 
     def __init__(self, coordinate_:Coordinate):
         self.coordinate = coordinate_
-        self.content = ''
+        self.content = None
         self.dependsonme = []
         self.idependon = []
     

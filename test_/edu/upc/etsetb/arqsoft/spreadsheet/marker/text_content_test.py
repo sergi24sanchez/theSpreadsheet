@@ -8,9 +8,9 @@ from spread_sheet_factory_for_checker import SpreadSheetFactoryForChecker
 
 class TextContentTest(SuperClassForTests):
 
-    numErrorsBefore = 0;
+    numErrorsBefore = 0
 
-    numInstances = 0;
+    numInstances = 0
 
     nota = 0.0
 

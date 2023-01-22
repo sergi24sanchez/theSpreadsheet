@@ -50,7 +50,7 @@ class FormulaProcessor:
     
     def compute_value_of_formula(self,formula:Formula):
         calculated_value = self.evaluator.evaluate_expression(formula.get_components())
-        formula.set_value(value_=calculated_value)
+        return calculated_value
     
     # ENCARA NO PODEM CRIDAR A SPREADSHEET
     def convert_tokens_into_components(self,postfix_tokens:List[Token],spreadsheet:Spreadsheet)->List[Component]:

@@ -12,12 +12,14 @@ from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.content_exception import Co
 from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.bad_coordinate_exception import BadCoordinateException
 import utils as utils
 from Exceptions import *
+from SpreadsheetPrinter import SpreadsheetPrinter
 
 from typing import List
 
 class SpreadsheetController:
     def __init__(self):
         self.spreadSheet = Spreadsheet(num_rows = 25,num_cols=25)
+        self.printer = SpreadsheetPrinter()
         self.formula_factory = FormulaFactory()
         self.formula_processor = self.formula_factory.get_formula_processor()
 
@@ -34,8 +36,9 @@ class SpreadsheetController:
 
     def create_content_by_type(self, type:str, content:str):
         if type == ContentEnum.FORMULA:
+            formula_string = content.split("=")[1]
             return self.formula_processor.create_formula(
-                input_string=content,
+                input_string=formula_string,
                 spreadsheet=self.spreadSheet,
             )
         elif type == ContentEnum.TEXT:
@@ -100,9 +103,14 @@ class SpreadsheetController:
         # ACTUALLY REFRESH THE VALUES
         self.search_cirucular_dependencies(cell_obj)
         depend_on_this_cell = self.get_all_dependent_cells(cell=cell_obj)
+        #calculate dependsonme new value
         self.recalculate_dependent_cells(depend_on_this_cell)
-    
-        
+        # calculate actual cell
+        if isinstance(cell_obj.get_content(),Formula):
+            cell_obj.get_content().compute_value(self.formula_processor)
+        else:
+            cell_obj.get_content().compute_value()
+            
     def save_spreadsheet_to_file(self, path:str):
         #self.files_manager.save_spreadsheet(path, self.spreadSheet)
         df = self.spreadSheet.get_cells()
