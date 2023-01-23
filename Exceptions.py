@@ -11,8 +11,3 @@ class InputError(Exception):
 class ParserException(Exception):
     def __init__(self, msg:str):
         self.msg = msg
-
-
-class BadCoordinateException(Exception):
-    def __init__(self, msg:str):
-        super().__init__(msg)

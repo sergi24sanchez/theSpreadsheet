@@ -1,6 +1,6 @@
 '''Class Coordinate'''
 import re
-from Exceptions import BadCoordinateException
+from src.edu.upc.etsetb.arqsoft.spreadsheet.entities.bad_coordinate_exception import BadCoordinateException
 
 
 class Coordinate:
