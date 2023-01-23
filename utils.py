@@ -56,8 +56,3 @@ def check_string(string:str):
             return ContentEnum.NUMERICAL
         except:
             return ContentEnum.TEXT
-
-    # elif string.isdigit():
-    #     return ContentEnum.NUMERICAL
-    # else:
-    #     return ContentEnum.TEXT

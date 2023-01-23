@@ -1,4 +1,4 @@
-from Tokenizer import Token, TokenInfo, TokenEnum
+from Tokenizer import Token, TokenEnum
 from Exceptions import ParserException
 from typing import List
 

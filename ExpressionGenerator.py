@@ -1,5 +1,7 @@
-from Parser_ import Parser
 from abc import ABC, abstractclassmethod
+import re
+from typing import List
+from Tokenizer import Token
 
 class ExpressionGenerator(ABC):
 
@@ -11,11 +13,6 @@ class ExpressionGenerator(ABC):
     def generate_expression(self):
         pass
 
-import re
-from typing import List
-from Tokenizer import Token, Tokenizer, ParserException
-from Parser_ import Parser
-from Function import FunctionEnum
 
 class PostFixGenerator(ExpressionGenerator):
 

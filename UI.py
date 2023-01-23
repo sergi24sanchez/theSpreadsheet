@@ -57,14 +57,3 @@ class UI():
                 print(e)
             except CircularDependencyException as e:
                 print(e)
-
-# ui = UI()
-# controller = ui.get_SpreadsheetController()
-# controller.create_spreadsheet(3,4)
-# #print(controller.spreadSheet)
-# controller.load_spreadsheet_from_file('awa.txt')
-# controller.save_spreadsheet_to_file('awa2.txt')
-# #print(spread)
-# controller = SpreadsheetController()
-# ui = UI()
-# ui.start_session(controller)
