@@ -54,3 +54,10 @@ As of the time of delivering the code, the TestsRunner.py file should give this 
 ```
 
 If the score is different, please contact us.
+
+# Known issues:
+- In We assume that the input will always be a string (since that is what the UI gave us). Later in the code this string is the one that will be converted to Numerical, Text or Formula. There is a comment in the file Spreadsheet_checker.py in the function set_cell_content(coord, str_content) of the class SpreadsheetChecker() that explains this.
+
+- We noticed while doing the 'final' tests that if a cell is referenced before giving it a content and a value, it does not work. When having formulas that have dependencies, this dependencies must have a content already and its value. Is for this motive that the LoadTextTest is not working.
+
+- Also when saving a spreadsheet we have ';' that indicate cells that are empty even after the last content introduced in the row. And also we have them if a row is completly empty. This is due a missunderstanding of the directions given in the first .pdf We assumed that the ';' indicated change of cell. this creates issues in the save test.

@@ -39,11 +39,11 @@ class UI():
                         content=cell_content,
                     )
                 elif command == "l":
-                    print('Introduce the path of the file you want to load. Include the name and also the extension .txt')
+                    print('Introduce the path of the file you want to load. Include the name and also the extension:')
                     path_load = input()
                     controller.load_spreadsheet_from_file(path_load)
                 elif command == "s":
-                    print('Introduce the output path of the file you want to save. Include the name and also the extension .txt')
+                    print('Introduce the output path of the file you want to save. Include the name and also the extension:')
                     path_save = input()
                     controller.save_spreadsheet_to_file(path_save)
                 else:
