@@ -54,23 +54,23 @@ class SpreadsheetController:
             raise BadCoordinateException("The coordinate introduced is not valid")
         return coordinate
 
-    def get_all_dependent_cells(self, cell:Cell)->List[Cell]:
-        dependsonme = cell.get_dependsonme()
-        dependencies=[]
-        for dependant_cell in dependsonme:
-            if dependant_cell not in dependencies:
-                if dependant_cell == cell:
-                    raise CircularDependencyException(f'Cell {cell.coordinate.get_as_string} generates a circular dependency')
-                dependencies.append(dependant_cell)
+    # def get_all_dependent_cells(self, cell:Cell)->List[Cell]:
+    #     dependsonme = cell.get_dependsonme()
+    #     dependencies=[]
+    #     for dependant_cell in dependsonme:
+    #         if dependant_cell not in dependencies:
+    #             if dependant_cell == cell:
+    #                 raise CircularDependencyException(f'Cell {cell.coordinate.get_as_string} generates a circular dependency')
+    #             dependencies.append(dependant_cell)
             
-                inner_dependsonme = self.get_all_dependent_cells(cell=dependant_cell)
-                for depend in inner_dependsonme:
-                    if depend not in dependencies:
-                        if depend == dependant_cell or depend == cell:
-                            raise CircularDependencyException(f'Cell {dependant_cell.coordinate.get_as_string} generates a circular dependency')
-                        dependencies.append(depend)
+    #             # inner_dependsonme = self.get_all_dependent_cells(cell=dependant_cell)
+    #             # for depend in inner_dependsonme:
+    #             #     if depend not in dependencies:
+    #             #         if depend == dependant_cell or depend == cell:
+    #             #             raise CircularDependencyException(f'Cell {dependant_cell.coordinate.get_as_string} generates a circular dependency')
+    #             #         dependencies.append(depend)
 
-        return dependencies
+    #     return dependencies
             
     def search_cirucular_dependencies(self, cell:Cell):
         #when searching for circular dependencies, raise an exception if circular dependencies == true
@@ -107,14 +107,14 @@ class SpreadsheetController:
         )
         # ACTUALLY REFRESH THE VALUES
         self.search_cirucular_dependencies(cell_obj)
-        depend_on_this_cell = self.get_all_dependent_cells(cell=cell_obj)
+        #depend_on_this_cell = self.get_all_dependent_cells(cell=cell_obj)
         # calculate actual cell
         if isinstance(cell_obj.get_content(),Formula):
             cell_obj.get_content().compute_value(self.formula_processor)
         else:
             cell_obj.get_content().compute_value()
         #calculate dependsonme new value
-        self.recalculate_dependent_cells(depend_on_this_cell)
+        self.recalculate_dependent_cells(cell_obj.get_dependsonme())
 
     def load_cell(self, cell_coordinate:str,content:str):
         try:
